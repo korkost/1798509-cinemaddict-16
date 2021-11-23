@@ -1,6 +1,6 @@
 # Проект «Киноман»
 
-* Студент: [Константин Корейкин](https://up.htmlacademy.ru/ecmascript/16/user/1798509).
+* Студент: [Константин Корейкин](https://htmlacademy.ru//profile/id1798509).
 * Наставник: [Артем Рудов](https://htmlacademy.ru/profile/artrudov).
 
 ---
