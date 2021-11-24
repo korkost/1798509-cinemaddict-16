@@ -7,9 +7,7 @@ import { createShowMoreTemplate } from './view/show-more-view.js';
 import { createStatisticsTemplate } from './view/statistics-view.js';
 import { createFilmDetailsTemplate } from './view/film-details-view.js';
 
-
 const FILMS_COUNT = 5;
-
 
 const RenderPosition = {
   BEFOREBEGIN: 'beforebegin',
@@ -18,13 +16,11 @@ const RenderPosition = {
   AFTEREND: 'afterend',
 };
 
-
 const renderTemplate = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
 };
 
-
-const renderMainPage = () => {
+ export const renderMainPage = () => {
   const header = document.querySelector('.header');
   renderTemplate(header, createProfileTemplate(), RenderPosition.BEFOREEND);
 
@@ -48,5 +44,3 @@ const renderMainPage = () => {
   renderTemplate(document.body, createFilmDetailsTemplate(), RenderPosition.BEFOREEND);
 };
 
-
-export { renderMainPage };

@@ -1,9 +1,11 @@
 const path = require('path');
+const INPUT_DATE = './src/main.js';
+const FINAL_FAIL = 'bundle.js';
 
 module.exports = {
-  entry: './src/main.js',
+  entry: INPUT_DATE,
   output: {
-    filename: 'bundle.js',
+    filename: FINAL_FAIL,
     path: path.resolve(__dirname, 'public'),
   },
   devtool: 'source-map',
