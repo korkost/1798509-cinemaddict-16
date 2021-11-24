@@ -1,5 +1,5 @@
 import { createProfileTemplate } from './view/profile-view.js';
-import { createNavigationTemplate } from './view/site-menu-view.js';
+import { createSiteMenuTemplate } from './view/site-menu-view.js';
 import { createSortTemplate } from './view/sort-view.js';
 import { createFilmsTemplate } from './view/films-view.js';
 import { createFilmCardTemplate } from './view/film-card-view.js';
