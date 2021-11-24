@@ -20,7 +20,7 @@ const renderTemplate = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
 };
 
- export const renderMainPage = () => {
+export const renderMainPage = () => {
   const header = document.querySelector('.header');
   renderTemplate(header, createProfileTemplate(), RenderPosition.BEFOREEND);
 
