@@ -1,3 +1,4 @@
-import { renderMainPage } from './render.js';
+import { immutablePage,mutablePage } from './renderingPage.js';
 
-renderMainPage();
+immutablePage();
+mutablePage();
