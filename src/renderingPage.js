@@ -6,15 +6,15 @@ import { createFilmCardTemplate } from './view/film-card-view.js';
 import { createShowMoreTemplate } from './view/show-more-view.js';
 import { createStatisticsTemplate } from './view/statistics-view.js';
 import { createFilmDetailsTemplate } from './view/film-details-view.js';
-import { FILMS_COUNT} from './consts.js'
-import { renderTemplate } from './helpers.js'
+import { FILMS_COUNT } from './consts.js';
+import { renderTemplate } from './helpers.js';
 
 export const immutablePage = () => {
-const header = document.querySelector('.header');
-renderTemplate(header, createProfileTemplate());
+  const header = document.querySelector('.header');
+  renderTemplate(header, createProfileTemplate());
 
-const footerStatistics = document.querySelector('.footer__statistics');
-renderTemplate(footerStatistics, createStatisticsTemplate());
+  const footerStatistics = document.querySelector('.footer__statistics');
+  renderTemplate(footerStatistics, createStatisticsTemplate());
 };
 
 export const mutablePage = () => {
