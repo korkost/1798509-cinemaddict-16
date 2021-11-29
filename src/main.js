@@ -1,4 +1,4 @@
-import { immutablePage,mutablePage } from './renderingPage.js';
+import { immutablePage, mutablePage } from './renderingPage.js';
 
 immutablePage();
 mutablePage();
