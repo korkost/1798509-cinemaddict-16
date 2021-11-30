@@ -35,7 +35,7 @@ const generateImg = () => {
   return images[getRandomInteger(0, images.length - 1)];
 };
 const generateGenre = () => {
-  const genres = [
+  const genre = [
     'Western',
     'Drama',
     'Mystery',
@@ -44,7 +44,7 @@ const generateGenre = () => {
     'Music',
     'Crime',
   ];
-  return genres[getRandomInteger(0, genres.length - 1)];
+  return genre[getRandomInteger(0, genre.length - 1)];
 };
 const generateCountry = () => {
   const countries = [

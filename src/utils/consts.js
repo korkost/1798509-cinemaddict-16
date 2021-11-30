@@ -5,5 +5,5 @@ export const RenderPosition = {
   AFTER_END: 'afterend',
 };
 
-export const FILM_CARD_COUNT = 15;
-export const FILM_CARD_COUNT_PER_STEP = 8;
+export const FILM_CARD_COUNT = 20;
+export const  FILM_CARD_COUNT_PER_STEP = 5;
