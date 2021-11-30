@@ -24,6 +24,7 @@ export const createPopupFilmTemplate = (card) => {
     ageRating,
     commentCount,
   } = card;
+
   const watchlistClassName = isWatchlist
     ? 'film-details__control-button--watchlist film-details__control-button--active'
     : 'film-details__control-button--watchlist';
@@ -52,8 +53,7 @@ export const createPopupFilmTemplate = (card) => {
         <button class="film-details__comment-delete">Delete</button>
       </p>
     </div>
-  </li>
-`;
+  </li>`;
 
   return `
   <section class="film-details">

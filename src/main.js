@@ -47,6 +47,5 @@ if (cards.length > FILM_CARD_COUNT_PER_STEP) {
   });
 }
 const footerElement = document.querySelector('.footer');
-for (let i = 0; FILM_CARD_COUNT; i++) {
-  renderTemplate(footerElement, createPopupFilmTemplate(cards[i]));
-}
+
+renderTemplate(footerElement, createPopupFilmTemplate(cards[0]));

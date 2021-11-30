@@ -17,6 +17,7 @@ export const getRandomPositiveFloat = (a, b, digits = 1) => {
   const result = Math.random() * (upper - lower) + lower;
   return result.toFixed(digits);
 };
+
 export const generateDate = () => {
   const maxDaysGap = 36000;
   const daysGap = getRandomInteger(1, maxDaysGap);

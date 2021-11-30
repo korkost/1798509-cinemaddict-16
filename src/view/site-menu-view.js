@@ -10,11 +10,12 @@ export const createSiteMenuTemplate = (filterItems) => {
     .map((filter, index) => (index !== 0) ? createSiteMenuItemTemplate(filter) : '')
     .join('\n');
 
-  return `<nav class="main-navigation">
-  <div class="main-navigation__items">
-    <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
+  return `
+  <nav class="main-navigation">
+    <div class="main-navigation__items">
+      <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
     ${filterItemsTemplate}
-  </div>
-  <a href="#stats" class="main-navigation__additional">Stats</a>
-</nav>`;
+    </div>
+    <a href="#stats" class="main-navigation__additional">Stats</a>
+  </nav>`;
 };
