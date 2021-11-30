@@ -1,5 +1,4 @@
 import { datePopup } from '../utils/helpers.js';
-import { createFilmPopupCommentsTemplat, createFilmPopupGenresTemplate } from './film-comment.js';
 
 export const createPopupFilmTemplate = (card) => {
   const {
