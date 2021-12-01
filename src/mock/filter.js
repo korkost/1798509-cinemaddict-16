@@ -7,6 +7,11 @@ const filmCardFilter = {
     .filter((card) => card.isWatchlist).length,
 };
 
+//const array = [Watched, Favorites, Watch];
+//const total = array.reduce(function (acc, elem) {
+ // return
+//})
+
 export const generateFilter = (cards) => Object.entries(filmCardFilter).map(
   ([filterName, countCards]) => ({
     name: filterName,

@@ -2,7 +2,16 @@ const createSiteMenuItemTemplate = (filter) => {
   const { name, count } = filter;
   const filterName = name[0].toUpperCase() + name.slice(1).toLowerCase();
 
-  return `<a href="#${filterName}" class="main-navigation__item">${filterName} <span class="main-navigation__item-count">${count}</span></a>`;
+  return (
+    `<a
+      href="#${filterName}"
+      class="main-navigation__item">
+        ${filterName}
+        <span class="main-navigation__item-count">
+        ${count}
+        </span>
+      </a>`
+    );
 };
 
 export const createSiteMenuTemplate = (filterItems) => {
