@@ -15,23 +15,24 @@ export const createFilmCardTemplate = ({
   duration,
   countComment,
 }) => {
+
   const classesWatchlist = cn(
     'film-card__controls-item',
     'film-card__controls-item--add-to-watchlist', {
-    'film-card__controls-item--active': isWatchlist
-  });
+      'film-card__controls-item--active': isWatchlist
+    });
 
   const classesWatched = cn(
     'film-card__controls-item',
     'film-card__controls-item--mark-as-watched', {
-    'film-card__controls-item--active': isWatched
-  });
+      'film-card__controls-item--active': isWatched
+    });
 
   const classesFavorite = cn(
     'film-card__controls-item',
     'film-card__controls-item--favorite', {
-    'film-card__controls-item--active': isFavorite
-  });
+      'film-card__controls-item--active': isFavorite
+    });
 
   const controlsItemButton = (
     `<button class="film-card__controls-item ${classesWatchlist}"

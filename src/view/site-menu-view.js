@@ -6,12 +6,12 @@ const createSiteMenuItemTemplate = (filter) => {
     `<a
       href="#${filterName}"
       class="main-navigation__item">
-        ${filterName}
-        <span class="main-navigation__item-count">
+      ${filterName}
+      <span class="main-navigation__item-count">
         ${count}
-        </span>
-      </a>`
-    );
+      </span>
+    </a>`
+  );
 };
 
 export const createSiteMenuTemplate = (filterItems) => {
@@ -20,11 +20,11 @@ export const createSiteMenuTemplate = (filterItems) => {
     .join('\n');
 
   return `
-  <nav class="main-navigation">
+    < nav class="main-navigation" >
     <div class="main-navigation__items">
       <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
     ${filterItemsTemplate}
     </div>
     <a href="#stats" class="main-navigation__additional">Stats</a>
-  </nav>`;
+  </ > `;
 };
