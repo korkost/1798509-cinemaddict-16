@@ -1,7 +1,8 @@
 import { date } from '../utils/helpers.js';
 import cn from 'classnames';
+import { createElement } from '../utils/helpers.js';
 
-export const createFilmCardTemplate = ({
+const createFilmCardTemplate = ({
   title,
   description,
   img,
@@ -63,3 +64,29 @@ export const createFilmCardTemplate = ({
     </article>`
   );
 };
+
+export default class Movie {
+  #element = null;
+  #movie = null;
+
+  constructor(movie) {
+    this.#movie = movie;
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  get template() {
+    return createFilmCardTemplate(this.#movie);
+  }
+
+  removeElement() {
+    this.#element.remove();
+    this.#element = null;
+  }
+}

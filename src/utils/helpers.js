@@ -1,9 +1,31 @@
 import dayjs from 'dayjs';
 import { RenderPosition, Date, MAX_DAYS_GAP, MIN_VALUE, MAX_MINUTES, MAX_RATING } from './consts.js';
 
-export const renderTemplate = (container, template, place = RenderPosition.BEFORE_END) => {
-  container.insertAdjacentHTML(place, template);
+export const render = (container, element, position = RenderPosition.BEFOREEND) => {
+  switch(position) {
+    case RenderPosition.BEFOREBEGIN:
+      container.before(element);
+      break;
+    case RenderPosition.AFTERBEGIN:
+      container.prepend(element);
+      break;
+    case RenderPosition.BEFOREEND:
+      container.append(element);
+      break;
+    case RenderPosition.AFTEREND:
+      container.after(element);
+      break;
+  }
 };
+
+export const createElement = (template) => {
+  const newElement = document.createElement('div');
+
+  newElement.innerHTML = template;
+
+  return newElement.firstChild;
+};
+
 
 export const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));

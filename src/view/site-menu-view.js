@@ -1,30 +1,42 @@
-const createSiteMenuItemTemplate = (filter) => {
-  const { name, count } = filter;
-  const filterName = name[0].toUpperCase() + name.slice(1).toLowerCase();
+import { createElement } from '../utils/helpers.js';
 
-  return (
-    `<a
-      href="#${filterName}"
-      class="main-navigation__item">
-      ${filterName}
-      <span class="main-navigation__item-count">
-        ${count}
-      </span>
-    </a>`
-  );
-};
-
-export const createSiteMenuTemplate = (filterItems) => {
-  const filterItemsTemplate = filterItems
-    .map((filter, index) => (index !== 0) ? createSiteMenuItemTemplate(filter) : '')
-    .join('\n');
-
-  return `
-    < nav class="main-navigation" >
+const createSiteMenuTemplate = (watchListCount, historyCount, favoriteCount) =>
+  `<nav class="main-navigation">
     <div class="main-navigation__items">
       <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
-    ${filterItemsTemplate}
+      <a href="#watchlist" class="main-navigation__item">Watchlist <span class="main-navigation__item-count">${watchListCount}</span></a>
+      <a href="#history" class="main-navigation__item">History <span class="main-navigation__item-count">${historyCount}</span></a>
+      <a href="#favorites" class="main-navigation__item">Favorites <span class="main-navigation__item-count">${favoriteCount}</span></a>
     </div>
     <a href="#stats" class="main-navigation__additional">Stats</a>
-  </ > `;
-};
+  </nav>`;
+
+export default class MainMenu {
+  #element = null;
+  #watchListCount = null;
+  #historyCount = null;
+  #favoriteCount = null;
+
+  constructor(watchListCount, historyCount, favoriteCount) {
+    this.#watchListCount = watchListCount;
+    this.#historyCount = historyCount;
+    this.#favoriteCount = favoriteCount;
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  get template() {
+    return createSiteMenuTemplate(this.#watchListCount, this.#historyCount, this.#favoriteCount);
+  }
+
+  removeElement() {
+    this.#element.remove();
+    this.#element = null;
+  }
+}

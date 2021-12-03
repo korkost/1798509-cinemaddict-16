@@ -1,7 +1,7 @@
-import { datePopup } from '../utils/helpers.js';
+import { datePopup, createElement } from '../utils/helpers.js';
 import cn from 'classnames';
 
-export const createPopupFilmTemplate = ({
+const createPopupFilmTemplate = ({
   title,
   description,
   img,
@@ -28,20 +28,20 @@ export const createPopupFilmTemplate = ({
   const classesWatchlist = cn(
     'film-card__controls-item',
     'film-card__controls-item--add-to-watchlist', {
-      'film-card__controls-item--active': isWatchlist
-    });
+    'film-card__controls-item--active': isWatchlist
+  });
 
   const classesWatched = cn(
     'film-card__controls-item',
     'film-card__controls-item--mark-as-watched', {
-      'film-card__controls-item--active': isWatched
-    });
+    'film-card__controls-item--active': isWatched
+  });
 
   const classesFavorite = cn(
     'film-card__controls-item',
     'film-card__controls-item--favorite', {
-      'film-card__controls-item--active': isFavorite
-    });
+    'film-card__controls-item--active': isFavorite
+  });
 
   const controlsItemButton = (
     `<button class="film-card__controls-item ${classesWatchlist}"
@@ -169,3 +169,31 @@ export const createPopupFilmTemplate = ({
     </section>`
   );
 };
+
+export default class MovieDetails {
+  #element = null;
+  #movie = null;
+  #comments = null;
+
+  constructor(movie, comments) {
+    this.#movie = movie;
+    this.#comments = comments;
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  get template() {
+    return createPopupFilmTemplate(this.#movie, this.#comments);
+  }
+
+  removeElement() {
+    this.#element.remove();
+    this.#element = null;
+  }
+}
