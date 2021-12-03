@@ -45,7 +45,7 @@ if (cards.length > FILM_CARD_COUNT_PER_STEP) {
       loadButton.remove();
     }
   });
-};
+}
 
 const footerElement = document.querySelector('.footer');
 

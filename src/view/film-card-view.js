@@ -1,5 +1,5 @@
 import { date } from '../utils/helpers.js';
-import cn from 'classnames'
+import cn from 'classnames';
 
 export const createFilmCardTemplate = ({
   title,
