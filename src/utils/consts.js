@@ -16,4 +16,5 @@ export const MAX_DAYS_GAP = 36000;
 export const MIN_VALUE = 1;
 export const MAX_RATING = 10;
 export const MAX_MINUTES = 59;
-
+export const NOVICE = 10;
+export const FAN = 20;

@@ -1,4 +1,5 @@
 import { datePopup } from '../utils/helpers.js';
+import cn from 'classnames'
 
 export const createPopupFilmTemplate = ({
   title,
@@ -24,24 +25,33 @@ export const createPopupFilmTemplate = ({
   commentCount,
 }) => {
 
-  const watchlistClassName = isWatchlist
-    ? 'film-details__control-button--watchlist film-details__control-button--active'
-    : 'film-details__control-button--watchlist';
-  const watchedClassName = isWatched
-    ? 'film-details__control-button--watched film-details__control-button--active'
-    : 'film-details__control-button--watched';
-  const favoritesClassName = isFavorite
-    ? 'film-details__control-button--favorite film-details__control-button--active'
-    : 'film-details__control-button--favorite';
+  const classesWatchlist = cn(
+    'film-card__controls-item',
+    'film-card__controls-item--add-to-watchlist', {
+    'film-card__controls-item--active': isWatchlist
+  });
+
+  const classesWatched = cn(
+    'film-card__controls-item',
+    'film-card__controls-item--mark-as-watched', {
+    'film-card__controls-item--active': isWatched
+  });
+
+  const classesFavorite = cn(
+    'film-card__controls-item',
+    'film-card__controls-item--favorite', {
+    'film-card__controls-item--active': isFavorite
+  });
 
   const controlsItemButton = (
-    `<button class="film-card__controls-item ${watchlistClassName}"
-    type="button">Add to watchlist</button>
-    <button class="film-card__controls-item ${watchedClassName}"
-    type="button">Mark as watched</button>
-    <button class="film-card__controls-item ${favoritesClassName}"
-    type="button">Mark as favorite</button>`
+    `<button class="film-card__controls-item ${classesWatchlist}"
+      type="button">Add to watchlist</button>
+      <button class="film-card__controls-item ${classesWatched}"
+      type="button">Mark as watched</button>
+      <button class="film-card__controls-item ${classesFavorite}"
+      type="button">Mark as favorite</button>`
   );
+
 
   const commentsList = (
     `<li li class="film-details__comment" >

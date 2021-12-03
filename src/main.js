@@ -4,7 +4,7 @@ import { createSortTemplate } from './view/sort-view.js';
 import { createFilmTemplate } from './view/films-list-view.js';
 import { createFilmCardTemplate } from './view/film-card-view.js';
 import { createShowMoreTemplate } from './view/show-more-view.js';
-//import { createPopupFilmTemplate } from './view/film-details-view.js';
+import { createPopupFilmTemplate } from './view/film-details-view.js';
 import { FILM_CARD_COUNT, FILM_CARD_COUNT_PER_STEP } from './utils/consts.js';
 import { renderTemplate } from './utils/helpers.js';
 import { generateCard } from './mock/film-card.js';

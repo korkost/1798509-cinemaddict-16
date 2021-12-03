@@ -1,15 +1,17 @@
+import { FAN, NOVICE } from '../utils/consts.js';
+
 const createRatingTemplate = (count) => {
   const getRank = () => {
-    if (count <= 10) {
+    if (count <= NOVICE) {
       return 'Novice';
-    } else if (count <= 20) {
+    } else if (count <= FAN) {
       return 'Fan';
     } else {
       return 'Movie buff';
     }
   };
 
-  return `<p class="profile__rating">${getRank()}</p>`;
+  return `<p class="profile__rating">${getRank(count)}</p>`;
 };
 
 export const createProfileTemplate = (count) => {
