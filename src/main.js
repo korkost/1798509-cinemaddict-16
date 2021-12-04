@@ -1,12 +1,16 @@
-import { createProfileTemplate } from './view/profile-view.js';
-import { createSiteMenuTemplate } from './view/site-menu-view.js';
-import { createSortTemplate } from './view/sort-view.js';
-import { createFilmTemplate } from './view/films-list-view.js';
-import { createFilmCardTemplate } from './view/film-card-view.js';
-import { createShowMoreTemplate } from './view/show-more-view.js';
-import { createPopupFilmTemplate } from './view/film-details-view.js';
+import SiteMenuView from './view/site-menu-view.js';
+import PopupFilmView from './view/popup-film-view.js';
+import FilmCardView from './view/film-card-view.js';
+import FilterSortView from './view/filter-sort-view.js';
+import SortView from './view/sort-view.js';
+import ShowMoreView from './view/show-more-view.js';
+import ProfileView from './view/profile-view.js';
+import FilmsView from './view/films-view.js';
+import LoadingView from './view/loading-view.js';
+import StatisticView from './view/statistics-view';
+import FilmEmpyt from './view/film-empty';
 import { FILM_CARD_COUNT, FILM_CARD_COUNT_PER_STEP } from './utils/consts.js';
-import { renderTemplate } from './utils/helpers.js';
+import { render } from './utils/helpers.js';
 import { generateCard } from './mock/film-card.js';
 import { generateFilter } from './mock/filter';
 

@@ -170,7 +170,7 @@ const createPopupFilmTemplate = ({
   );
 };
 
-export default class popupView {
+export default class PopupView {
   #element = null;
   #cards = null;
   #comments = null;

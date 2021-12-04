@@ -5,7 +5,7 @@ const createStatisticsTemplate = (count) =>
     <p>${count} movies inside</p>
   </section>`;
 
-export default class Statistic {
+export default class StatisticView {
   #element = null;
   #count = null;
 

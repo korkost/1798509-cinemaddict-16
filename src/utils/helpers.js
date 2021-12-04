@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { RenderPosition, Date, MAX_DAYS_GAP, MIN_VALUE, MAX_MINUTES, MAX_RATING } from './consts.js';
 
-export const render = (container, element, position = RenderPosition.BEFOREEND) => {
+export const render = (container, element, position = RenderPosition.BEFORE_END) => {
   switch(position) {
     case RenderPosition.BEFOREBEGIN:
       container.before(element);

@@ -2,7 +2,7 @@ import { createElement } from '../utils/helpers.js';
 
 const createFilmsEmptyTemplate = () => '<h2 class="films-list__title">There are no movies in our database</h2>';
 
-export default class MoviesEmpty {
+export default class FilmEmpty {
   #element = null;
 
   get element() {
