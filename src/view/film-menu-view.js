@@ -1,10 +1,15 @@
 import { createElement } from '../utils/helpers.js';
 
-const createShowMoreTemplate = () =>
-  '<button class="films-list__show-more">Show more</button>';
-
-export default class сreateShowMore {
+const createFilterSortTemplate = () => (
+  '<section class="sort"></section>'
+);
+export default class FilterSortView {
   #element = null;
+  #filters = null;
+
+  constructor(filters) {
+    this.#filters = filters;
+  }
 
   get element() {
     if (!this.#element) {
@@ -15,11 +20,10 @@ export default class сreateShowMore {
   }
 
   get template() {
-    return createShowMoreTemplate();
+    return createFilterSortTemplate(this.#filters);
   }
 
   removeElement() {
-    this.#element.remove();
     this.#element = null;
   }
 }

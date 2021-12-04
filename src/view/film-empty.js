@@ -1,9 +1,8 @@
 import { createElement } from '../utils/helpers.js';
 
-const createShowMoreTemplate = () =>
-  '<button class="films-list__show-more">Show more</button>';
+const createFilmsEmptyTemplate = () => '<h2 class="films-list__title">There are no movies in our database</h2>';
 
-export default class сreateShowMore {
+export default class MoviesEmpty {
   #element = null;
 
   get element() {
@@ -15,7 +14,7 @@ export default class сreateShowMore {
   }
 
   get template() {
-    return createShowMoreTemplate();
+    return createFilmsEmptyTemplate();
   }
 
   removeElement() {

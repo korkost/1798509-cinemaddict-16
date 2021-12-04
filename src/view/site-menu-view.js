@@ -1,26 +1,31 @@
 import { createElement } from '../utils/helpers.js';
 
-const createSiteMenuTemplate = (watchListCount, historyCount, favoriteCount) =>
-  `<nav class="main-navigation">
-    <div class="main-navigation__items">
+const createSiteMenuItemTemplate = (filter) => {
+  const { name, count } = filter;
+  return (
+    `<a href="#" class="main-navigation__item">${name} <span class="main-navigation__item-count">${count}</span></a>`
+  );
+};
+
+const createSiteMenuTemplate = (filterItems) => {
+  const filterItemsTemplate = filterItems
+    .map((filter, index) => createSiteMenuItemTemplate(filter, index === 0))
+    .join('');
+  return `<nav class="main-navigation">
+      <div class="main-navigation__items">
       <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
-      <a href="#watchlist" class="main-navigation__item">Watchlist <span class="main-navigation__item-count">${watchListCount}</span></a>
-      <a href="#history" class="main-navigation__item">History <span class="main-navigation__item-count">${historyCount}</span></a>
-      <a href="#favorites" class="main-navigation__item">Favorites <span class="main-navigation__item-count">${favoriteCount}</span></a>
-    </div>
-    <a href="#stats" class="main-navigation__additional">Stats</a>
-  </nav>`;
+          ${filterItemsTemplate}
+      </div>
+        <a href="#stats" class="main-navigation__additional">Stats</a>
+    </nav>`;
+};
 
-export default class MainMenu {
+export default class SiteMenuView {
   #element = null;
-  #watchListCount = null;
-  #historyCount = null;
-  #favoriteCount = null;
+  #filters = null;
 
-  constructor(watchListCount, historyCount, favoriteCount) {
-    this.#watchListCount = watchListCount;
-    this.#historyCount = historyCount;
-    this.#favoriteCount = favoriteCount;
+  constructor(filters) {
+    this.#filters = filters;
   }
 
   get element() {
@@ -32,11 +37,10 @@ export default class MainMenu {
   }
 
   get template() {
-    return createSiteMenuTemplate(this.#watchListCount, this.#historyCount, this.#favoriteCount);
+    return createSiteMenuTemplate(this.#filters);
   }
 
   removeElement() {
-    this.#element.remove();
     this.#element = null;
   }
 }

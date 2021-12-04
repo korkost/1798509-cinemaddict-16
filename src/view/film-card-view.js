@@ -65,12 +65,12 @@ const createFilmCardTemplate = ({
   );
 };
 
-export default class Movie {
+export default class FilmCardView {
   #element = null;
-  #movie = null;
+  #cards = null;
 
-  constructor(movie) {
-    this.#movie = movie;
+  constructor(cards) {
+    this.#cards = cards;
   }
 
   get element() {
@@ -82,7 +82,7 @@ export default class Movie {
   }
 
   get template() {
-    return createFilmCardTemplate(this.#movie);
+    return createFilmCardTemplate(this.#cards);
   }
 
   removeElement() {

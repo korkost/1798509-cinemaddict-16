@@ -1,10 +1,17 @@
 import { createElement } from '../utils/helpers.js';
 
-const createShowMoreTemplate = () =>
-  '<button class="films-list__show-more">Show more</button>';
+const createStatisticsTemplate = (count) =>
+  `<section class="footer__statistics">
+    <p>${count} movies inside</p>
+  </section>`;
 
-export default class сreateShowMore {
+export default class Statistic {
   #element = null;
+  #count = null;
+
+  constructor(count) {
+    this.#count = formatNumber(count);
+  }
 
   get element() {
     if (!this.#element) {
@@ -15,7 +22,7 @@ export default class сreateShowMore {
   }
 
   get template() {
-    return createShowMoreTemplate();
+    return createStatisticsTemplate(this.#count);
   }
 
   removeElement() {
