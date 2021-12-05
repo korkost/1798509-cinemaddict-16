@@ -35,15 +35,14 @@ const createFilmCardTemplate = ({
       'film-card__controls-item--active': isFavorite
     })
 
-    const controls = (
-      `<button class="film-card__controls-item ${classesWatchlist}"
+  const controlsItemButton = (
+    `<button class="film-card__controls-item ${classesWatchlist}"
         type="button">Add to watchlist</button>
         <button class="film-card__controls-item ${classesWatched}"
         type="button">Mark as watched</button>
         <button class="film-card__controls-item ${classesFavorite}"
         type="button">Mark as favorite</button>`
-    );
-
+  );
 
   return (
     `<article class="film-card">
