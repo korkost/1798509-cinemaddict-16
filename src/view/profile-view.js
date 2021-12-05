@@ -27,16 +27,8 @@ const createProfileTemplate = (count) => {
 };
 
 export default class ProfileView {
+
   #element = null;
-  #count = null;
-
-  constructor(count) {
-    this.#count = count;
-  }
-
-  get template() {
-    return createProfileTemplate(this.#count);
-  }
 
   get element() {
     if (!this.#element) {
@@ -44,6 +36,10 @@ export default class ProfileView {
     }
 
     return this.#element;
+  }
+
+  get template() {
+    return createProfileTemplate();
   }
 
   removeElement() {

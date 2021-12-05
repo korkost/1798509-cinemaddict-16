@@ -52,7 +52,6 @@ const createPopupFilmTemplate = ({
       type="button">Mark as favorite</button>`
   );
 
-
   const commentsList = (
     `<li li class="film-details__comment" >
       <span class="film-details__comment-emoji">
@@ -170,30 +169,26 @@ const createPopupFilmTemplate = ({
   );
 };
 
-export default class PopupView {
+export default class PopupFilmView  {
   #element = null;
   #cards = null;
-  #comments = null;
-
-  constructor(cards, comments) {
-                        this.#cards = cards;
-    this.#comments = comments;
+  constructor(cards) {
+    this.#cards = cards;
   }
 
   get element() {
     if (!this.#element) {
-                        this.#element = createElement(this.template);
+      this.#element = createElement(this.template);
     }
 
     return this.#element;
   }
 
   get template() {
-    return createPopupFilmTemplate(this.#cards, this.#comments);
+    return createPopupFilmTemplate(this.#cards);
   }
 
   removeElement() {
-                        this.#element.remove();
     this.#element = null;
   }
 }

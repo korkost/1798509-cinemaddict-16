@@ -7,7 +7,7 @@ const filmCardFilter = {
     .filter((card) => card.isWatchlist).length,
 };
 
-export const generateFilter = (cards) => Object.entries(filmCardFilter ).map(
+export const generateFilter = (cards) => Object.entries(filmCardFilter).map(
   ([filterName, countCards]) => ({
     name: filterName,
     count: countCards(cards),

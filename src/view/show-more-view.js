@@ -19,7 +19,6 @@ export default class ShowMoreView {
   }
 
   removeElement() {
-    this.#element.remove();
     this.#element = null;
   }
 }
