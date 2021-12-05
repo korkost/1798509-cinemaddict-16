@@ -33,7 +33,7 @@ const createFilmCardTemplate = ({
     'film-card__controls-item',
     'film-card__controls-item--favorite', {
       'film-card__controls-item--active': isFavorite
-    })
+    });
 
   const controlsItemButton = (
     `<button class="film-card__controls-item ${classesWatchlist}"
@@ -59,7 +59,7 @@ const createFilmCardTemplate = ({
           <span class="film-card__comments">${countComment} comments</span>
       </a>
         <div class="film-card__controls">
-          ${controlsItemButton(controls)}
+          ${controlsItemButton}
         </div>
     </article>`
   );
