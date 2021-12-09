@@ -3,6 +3,7 @@ import { createElement } from '../utils/helpers.js';
 const createLoadingTemplate = () => (
   '<h2 class="films-list__title">Loading...</h2>'
 );
+
 export default class LoadingView {
   #element = null;
   #cards = null;

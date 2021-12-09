@@ -7,7 +7,7 @@ import ShowMoreView from './view/show-more-view.js';
 import ProfileView from './view/profile-view.js';
 import FilmsView from './view/films-view.js';
 import LoadingView from './view/loading-view.js';
-import { FILM_CARD_COUNT, FILM_CARD_COUNT_PER_STEP } from './utils/consts.js';
+import { FILM_CARD_COUNT, FILM_CARD_COUNT_PER_STEP, Selectors } from './utils/consts.js';
 import { render } from './utils/helpers.js';
 import { generateCard } from './mock/film-card.js';
 import { generateFilter } from './mock/filter';
@@ -15,8 +15,8 @@ import { generateFilter } from './mock/filter';
 const cards = Array.from({ length: FILM_CARD_COUNT }, generateCard);
 const filters = generateFilter(cards);
 
-const siteMainElement = document.querySelector('.main');
-const siteNavigationElement = document.querySelector('.header');
+const siteMainElement = document.querySelector(Selectors.MAIN);
+const siteNavigationElement = document.querySelector(Selectors.HEADER);
 
 render(siteMainElement, new SiteMenuView(filters).element);
 
@@ -28,11 +28,10 @@ render(filterSortComponent.element, new SortView().element);
 
 render(siteMainElement, new FilmsView().element);
 
-const filmMainElement = siteMainElement.querySelector('.films-list');
-const filmListElement = filmMainElement.querySelector('.films-list__container');
+const filmMainElement = siteMainElement.querySelector(Selectors.FILM_LIST);
+const filmListElement = filmMainElement.querySelector(Selectors.FILM_CONTAINER);
 
 const renderCard = (cardListElement, card) => {
-
   const cardComponent = new FilmCardView(card);
   const cardPopupComponent = new PopupFilmView(card);
   const body = document.body;
@@ -45,8 +44,10 @@ const renderCard = (cardListElement, card) => {
     cardListElement.removeChild(cardPopupComponent.element);
   };
 
+  const isPressed = (key) => evt.key === 'Escape' || evt.key === 'Esc';
+
   const onEscKeyDown = (evt) => {
-    if (evt.key === 'Escape' || evt.key === 'Esc') {
+    if (isPressed) {
       evt.preventDefault();
       removePopup();
       body.classList.remove('hide-overflow');
@@ -54,13 +55,13 @@ const renderCard = (cardListElement, card) => {
     }
   };
 
-  cardComponent.element.querySelector('.film-card__link').addEventListener('click', () => {
+  cardComponent.element.querySelector(Selectors.FILM_CARD).addEventListener('click', () => {
     appendPopup();
     body.classList.add('hide-overflow');
     document.addEventListener('keydown', onEscKeyDown);
   });
 
-  cardPopupComponent.element.querySelector('.film-details__close-btn').addEventListener('click', () => {
+  cardPopupComponent.element.querySelector(Selectors.FILM_DETAILS).addEventListener('click', () => {
     document.removeEventListener('keydown', onEscKeyDown);
     removePopup();
     body.classList.remove('hide-overflow');
@@ -71,20 +72,19 @@ const renderCard = (cardListElement, card) => {
 
 const renderCards = () => {
 
-  for (let i = 0; i < Math.min(cards.length, FILM_CARD_COUNT_PER_STEP); i++) {
-    renderCard(filmListElement, cards[i]);
-  }
-
   if (cards.length === 0) {
     render(filmListElement, new LoadingView().element);
   }
 
+  for (let i = 0; i < Math.min(cards.length, FILM_CARD_COUNT_PER_STEP); i++) {
+    renderCard(filmListElement, cards[i]);
+  }
 
   if (cards.length > FILM_CARD_COUNT_PER_STEP) {
     let renderCount = FILM_CARD_COUNT_PER_STEP;
     render(filmMainElement, new ShowMoreView().element);
 
-    const loadButton = filmMainElement.querySelector('.films-list__show-more');
+    const loadButton = filmMainElement.querySelector(Selectors.SHOW_MORE);
     loadButton.addEventListener('click', (evt) => {
       evt.preventDefault();
       cards

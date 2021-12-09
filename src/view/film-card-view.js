@@ -1,6 +1,6 @@
 import { date } from '../utils/helpers.js';
-import cn from 'classnames';
 import { createElement } from '../utils/helpers.js';
+import { controlsItemButton } from './popup-film-view.js';
 
 const createFilmCardTemplate = ({
   title,
@@ -9,40 +9,10 @@ const createFilmCardTemplate = ({
   genre,
   rating,
   colorRating,
-  isWatchlist,
-  isWatched,
-  isFavorite,
   releaseDate,
   duration,
   countComment,
 }) => {
-
-  const classesWatchlist = cn(
-    'film-card__controls-item',
-    'film-card__controls-item--add-to-watchlist', {
-      'film-card__controls-item--active': isWatchlist
-    });
-
-  const classesWatched = cn(
-    'film-card__controls-item',
-    'film-card__controls-item--mark-as-watched', {
-      'film-card__controls-item--active': isWatched
-    });
-
-  const classesFavorite = cn(
-    'film-card__controls-item',
-    'film-card__controls-item--favorite', {
-      'film-card__controls-item--active': isFavorite
-    });
-
-  const controlsItemButton = (
-    `<button class="film-card__controls-item ${classesWatchlist}"
-        type="button">Add to watchlist</button>
-        <button class="film-card__controls-item ${classesWatched}"
-        type="button">Mark as watched</button>
-        <button class="film-card__controls-item ${classesFavorite}"
-        type="button">Mark as favorite</button>`
-  );
 
   return (
     `<article class="film-card">

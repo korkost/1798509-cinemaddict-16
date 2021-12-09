@@ -1,6 +1,69 @@
 import { datePopup, createElement } from '../utils/helpers.js';
 import cn from 'classnames';
 
+export const controlsItemButton = ({
+  isWatchlist,
+  isWatched,
+  isFavorite,
+}) => {
+
+  const classesWatchlist = cn(
+    'film-card__controls-item',
+    'film-card__controls-item--add-to-watchlist', {
+    'film-card__controls-item--active': isWatchlist
+  });
+
+  const classesWatched = cn(
+    'film-card__controls-item',
+    'film-card__controls-item--mark-as-watched', {
+    'film-card__controls-item--active': isWatched
+  });
+
+  const classesFavorite = cn(
+    'film-card__controls-item',
+    'film-card__controls-item--favorite', {
+    'film-card__controls-item--active': isFavorite
+  });
+
+  return (
+    `<button class="film-card__controls-item ${classesWatchlist}"
+    type="button">
+    Add to watchlist
+    </button>
+    <button class="film-card__controls-item ${classesWatched}"
+    type="button"
+    >Mark as watched
+    </button>
+    <button class="film-card__controls-item ${classesFavorite}"
+    type="button">
+    Mark as favorite
+    </button>`
+  );
+};
+
+const commentsList = ({
+  comment,
+  commentImg,
+  commentName,
+}) => {
+
+  return (
+    `<li li class="film-details__comment" >
+    <span class="film-details__comment-emoji">
+      <img src="./images/emoji/${commentImg}" width="55" height="55" alt="emoji-smile">
+    </span>
+      <div>
+        <p class="film-details__comment-text">${comment}</p>
+        <p class="film-details__comment-info">
+          <span class="film-details__comment-author">${commentName}</span>
+          <span class="film-details__comment-day">2019/12/31 23:59</span>
+          <button class="film-details__comment-delete">Delete</button>
+        </p>
+      </div>
+  </li>`
+  );
+};
+
 const createPopupFilmTemplate = ({
   title,
   description,
@@ -12,61 +75,12 @@ const createPopupFilmTemplate = ({
   actors,
   writers,
   colorRating,
-  isWatchlist,
-  isWatched,
-  isFavorite,
   releaseDate,
   duration,
-  comment,
-  commentImg,
-  commentName,
   originalTitle,
   ageRating,
   commentCount,
 }) => {
-
-  const classesWatchlist = cn(
-    'film-card__controls-item',
-    'film-card__controls-item--add-to-watchlist', {
-      'film-card__controls-item--active': isWatchlist
-    });
-
-  const classesWatched = cn(
-    'film-card__controls-item',
-    'film-card__controls-item--mark-as-watched', {
-      'film-card__controls-item--active': isWatched
-    });
-
-  const classesFavorite = cn(
-    'film-card__controls-item',
-    'film-card__controls-item--favorite', {
-      'film-card__controls-item--active': isFavorite
-    });
-
-  const controlsItemButton = (
-    `<button class="film-card__controls-item ${classesWatchlist}"
-      type="button">Add to watchlist</button>
-      <button class="film-card__controls-item ${classesWatched}"
-      type="button">Mark as watched</button>
-      <button class="film-card__controls-item ${classesFavorite}"
-      type="button">Mark as favorite</button>`
-  );
-
-  const commentsList = (
-    `<li li class="film-details__comment" >
-      <span class="film-details__comment-emoji">
-        <img src="./images/emoji/${commentImg}" width="55" height="55" alt="emoji-smile">
-      </span>
-        <div>
-          <p class="film-details__comment-text">${comment}</p>
-          <p class="film-details__comment-info">
-            <span class="film-details__comment-author">${commentName}</span>
-            <span class="film-details__comment-day">2019/12/31 23:59</span>
-            <button class="film-details__comment-delete">Delete</button>
-          </p>
-        </div>
-    </li>`
-  );
 
   return (
     `<section class="film-details" >
@@ -169,7 +183,7 @@ const createPopupFilmTemplate = ({
   );
 };
 
-export default class PopupFilmView  {
+export default class PopupFilmView {
   #element = null;
   #cards = null;
   constructor(cards) {

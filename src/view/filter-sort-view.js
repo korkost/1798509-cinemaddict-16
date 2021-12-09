@@ -3,6 +3,7 @@ import { createElement } from '../utils/helpers.js';
 const createFilterSortTemplate = () => (
   '<section class="sort"></section>'
 );
+
 export default class FilterSortView {
   #element = null;
   #filters = null;
