@@ -1,5 +1,5 @@
 import { FAN, NOVICE } from '../utils/consts.js';
-import { createElement } from '../utils/helpers.js';
+import AbstractView from './abstract-view.js';
 
 const createRatingTemplate = (count) => {
   const getRank = () => {
@@ -26,23 +26,11 @@ const createProfileTemplate = (count) => {
   );
 };
 
-export default class ProfileView {
-
-  #element = null;
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
+export default class ProfileView extends AbstractView {
 
   get template() {
-    return createProfileTemplate();
-  }
 
-  removeElement() {
-    this.#element = null;
+    return createProfileTemplate();
+
   }
 }

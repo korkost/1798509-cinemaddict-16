@@ -1,5 +1,7 @@
-import { date, createElement } from '../utils/helpers.js';
+import { date } from '../utils/helpers.js';
 import cn from 'classnames';
+import AbstractView from './abstract-view.js';
+import { Selectors } from '../utils/consts.js';
 
 export const createlsItemButton = (
   isWatchlist,
@@ -74,27 +76,26 @@ const createFilmCardTemplate = ({
   </article>`
 );
 
-export default class FilmCardView {
-  #element = null;
+export default class FilmCardView extends AbstractView {
   #cards = null;
 
   constructor(cards) {
+    super();
     this.#cards = cards;
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
   get template() {
+
     return createFilmCardTemplate(this.#cards);
   }
 
-  removeElement() {
-    this.#element = null;
+  cardClickHandler = (callback) => {
+    this._callback.editClick = callback;
+    this.element.querySelector(Selectors.FILM_CARD).addEventListener('click', this.#editClickHandler);
+  }
+
+  #editClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.editClick();
   }
 }

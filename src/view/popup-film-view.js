@@ -1,5 +1,7 @@
-import { datePopup, createElement } from '../utils/helpers.js';
+import { datePopup } from '../utils/helpers.js';
+import AbstractView from './abstract-view.js';
 import { createlsItemButton } from './film-card-view.js';
+import { Selectors } from '../utils/consts.js';
 
 const createPopupFilmTemplate = ({
   title,
@@ -140,26 +142,25 @@ const createPopupFilmTemplate = ({
   );
 };
 
-export default class PopupFilmView {
-  #element = null;
+export default class PopupFilmView extends AbstractView {
+
   #cards = null;
   constructor(cards) {
+    super();
     this.#cards = cards;
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
   }
 
   get template() {
     return createPopupFilmTemplate(this.#cards);
   }
 
-  removeElement() {
-    this.#element = null;
+  popupCloseHandler = (callback) => {
+    this._callback.editClick = callback;
+    this.element.querySelector(Selectors.FILM_DETAILS).addEventListener('click', this.#editCloseHandler);
+  }
+
+  #editCloseHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.editClick();
   }
 }
