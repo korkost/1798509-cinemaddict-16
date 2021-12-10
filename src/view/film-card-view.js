@@ -54,9 +54,7 @@ const createFilmCardTemplate = ({
   duration,
   countComment,
   controlsItemButton,
-}) => {
-
-  return (
+}) => (
     `<article class="film-card">
       <a class="film-card__link">
         <h3 class="film-card__title">${title}</h3>
@@ -75,7 +73,6 @@ const createFilmCardTemplate = ({
         </div>
     </article>`
   );
-};
 
 export default class FilmCardView {
   #element = null;
