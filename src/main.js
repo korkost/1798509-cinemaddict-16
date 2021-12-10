@@ -44,7 +44,7 @@ const renderCard = (cardListElement, card) => {
     cardListElement.removeChild(cardPopupComponent.element);
   };
 
-  const isPressed = (key) => evt.key === 'Escape' || evt.key === 'Esc';
+  const isPressed = (key) => key === 'Escape' || key === 'Esc';
 
   const onEscKeyDown = (evt) => {
     if (isPressed) {
