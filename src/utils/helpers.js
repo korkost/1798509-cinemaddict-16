@@ -1,19 +1,29 @@
 import dayjs from 'dayjs';
-import { RenderPosition, Date, MAX_DAYS_GAP, MIN_VALUE, MAX_MINUTES, MAX_RATING } from './consts.js';
+import AbstractView from '../view/abstract-view';
+import {
+  RenderPosition,
+  Date,
+  MAX_DAYS_GAP,
+  MIN_VALUE,
+  MAX_MINUTES,
+  MAX_RATING
+} from './consts.js';
 
 export const render = (container, element, position = RenderPosition.BEFORE_END) => {
-  switch(position) {
+  const parent = container instanceof AbstractView ? container.element : container;
+  const child = element instanceof AbstractView ? element.element : element;
+  switch (position) {
     case RenderPosition.BEFORE_BEGIN:
-      container.before(element);
+      parent.before(child);
       break;
     case RenderPosition.AFTER_BEGIN:
-      container.prepend(element);
+      parent.prepend(child);
       break;
     case RenderPosition.BEFORE_END:
-      container.append(element);
+      parent.append(child);
       break;
     case RenderPosition.AFTER_END:
-      container.after(element);
+      parent.after(child);
       break;
   }
 };
