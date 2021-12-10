@@ -1,9 +1,9 @@
 import {
   getRandomInteger,
-  getRating,
   generateDate,
   generateDuration
-} from '../utils/helpers.js';
+} from '../utils/common.js';
+import { getRating } from '../utils/task.js';
 import {
   TITLES,
   DESCRIPTION,

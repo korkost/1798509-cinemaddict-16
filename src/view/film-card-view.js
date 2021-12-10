@@ -1,4 +1,4 @@
-import { date } from '../utils/helpers.js';
+import { date } from '../utils/task.js';
 import cn from 'classnames';
 import AbstractView from './abstract-view.js';
 import { Selectors } from '../utils/consts.js';
