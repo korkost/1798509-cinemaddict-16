@@ -10,20 +10,20 @@ export const createlsItemButton = (
   const classesWatchlist = cn(
     'film-card__controls-item',
     'film-card__controls-item--add-to-watchlist', {
-      'film-card__controls-item--active': isWatchlist
-    });
+    'film-card__controls-item--active': isWatchlist
+  });
 
   const classesWatched = cn(
     'film-card__controls-item',
     'film-card__controls-item--mark-as-watched', {
-      'film-card__controls-item--active': isWatched
-    });
+    'film-card__controls-item--active': isWatched
+  });
 
   const classesFavorite = cn(
     'film-card__controls-item',
     'film-card__controls-item--favorite', {
-      'film-card__controls-item--active': isFavorite
-    });
+    'film-card__controls-item--active': isFavorite
+  });
 
   const controlsItemButton = (
     `<button class="film-card__controls-item ${classesWatchlist}"
@@ -55,7 +55,7 @@ const createFilmCardTemplate = ({
   countComment,
   controlsItemButton,
 }) => (
-    `<article class="film-card">
+  `<article class="film-card">
       <a class="film-card__link">
         <h3 class="film-card__title">${title}</h3>
         <p class="film-card__rating film-card__rating--${colorRating}">${rating}</p>
@@ -71,8 +71,8 @@ const createFilmCardTemplate = ({
         <div class="film-card__controls">
           ${createlsItemButton(controlsItemButton)}
         </div>
-    </article>`
-  );
+  </article>`
+);
 
 export default class FilmCardView {
   #element = null;
