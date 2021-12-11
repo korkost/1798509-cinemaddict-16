@@ -1,7 +1,7 @@
-import { datePopup } from '../utils/helpers.js';
-import cn from 'classnames';
+import { datePopup, createElement } from '../utils/helpers.js';
+import { createlsItemButton } from './film-card-view.js';
 
-export const createPopupFilmTemplate = ({
+const createPopupFilmTemplate = ({
   title,
   description,
   img,
@@ -12,46 +12,16 @@ export const createPopupFilmTemplate = ({
   actors,
   writers,
   colorRating,
-  isWatchlist,
-  isWatched,
-  isFavorite,
   releaseDate,
   duration,
-  comment,
-  commentImg,
-  commentName,
   originalTitle,
   ageRating,
   commentCount,
+  controlsItemButton,
+  comment,
+  commentImg,
+  commentName,
 }) => {
-
-  const classesWatchlist = cn(
-    'film-card__controls-item',
-    'film-card__controls-item--add-to-watchlist', {
-      'film-card__controls-item--active': isWatchlist
-    });
-
-  const classesWatched = cn(
-    'film-card__controls-item',
-    'film-card__controls-item--mark-as-watched', {
-      'film-card__controls-item--active': isWatched
-    });
-
-  const classesFavorite = cn(
-    'film-card__controls-item',
-    'film-card__controls-item--favorite', {
-      'film-card__controls-item--active': isFavorite
-    });
-
-  const controlsItemButton = (
-    `<button class="film-card__controls-item ${classesWatchlist}"
-      type="button">Add to watchlist</button>
-      <button class="film-card__controls-item ${classesWatched}"
-      type="button">Mark as watched</button>
-      <button class="film-card__controls-item ${classesFavorite}"
-      type="button">Mark as favorite</button>`
-  );
-
 
   const commentsList = (
     `<li li class="film-details__comment" >
@@ -66,7 +36,7 @@ export const createPopupFilmTemplate = ({
             <button class="film-details__comment-delete">Delete</button>
           </p>
         </div>
-  </li>`
+    </li>`
   );
 
   return (
@@ -130,7 +100,7 @@ export const createPopupFilmTemplate = ({
             </div>
           </div>
           <section class="film-details__controls">
-            ${controlsItemButton}
+            ${createlsItemButton(controlsItemButton)}
           </section>
         </div>
         <div class="film-details__bottom-container">
@@ -169,3 +139,27 @@ export const createPopupFilmTemplate = ({
     </section>`
   );
 };
+
+export default class PopupFilmView {
+  #element = null;
+  #cards = null;
+  constructor(cards) {
+    this.#cards = cards;
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  get template() {
+    return createPopupFilmTemplate(this.#cards);
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}

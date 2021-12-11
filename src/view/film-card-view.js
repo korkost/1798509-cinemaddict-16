@@ -1,20 +1,11 @@
-import { date } from '../utils/helpers.js';
+import { date, createElement } from '../utils/helpers.js';
 import cn from 'classnames';
 
-export const createFilmCardTemplate = ({
-  title,
-  description,
-  img,
-  genre,
-  rating,
-  colorRating,
+export const createlsItemButton = (
   isWatchlist,
   isWatched,
   isFavorite,
-  releaseDate,
-  duration,
-  countComment,
-}) => {
+) => {
 
   const classesWatchlist = cn(
     'film-card__controls-item',
@@ -36,15 +27,35 @@ export const createFilmCardTemplate = ({
 
   const controlsItemButton = (
     `<button class="film-card__controls-item ${classesWatchlist}"
-      type="button">Add to watchlist</button>
-      <button class="film-card__controls-item ${classesWatched}"
-      type="button">Mark as watched</button>
-      <button class="film-card__controls-item ${classesFavorite}"
-      type="button">Mark as favorite</button>`
+    type="button">
+    Add to watchlist
+    </button>
+    <button class="film-card__controls-item ${classesWatched}"
+    type="button"
+    >Mark as watched
+    </button>
+    <button class="film-card__controls-item ${classesFavorite}"
+    type="button">
+    Mark as favorite
+    </button>`
   );
 
-  return (
-    `<article class="film-card">
+  return controlsItemButton;
+};
+
+const createFilmCardTemplate = ({
+  title,
+  description,
+  img,
+  genre,
+  rating,
+  colorRating,
+  releaseDate,
+  duration,
+  countComment,
+  controlsItemButton,
+}) => (
+  `<article class="film-card">
       <a class="film-card__link">
         <h3 class="film-card__title">${title}</h3>
         <p class="film-card__rating film-card__rating--${colorRating}">${rating}</p>
@@ -58,8 +69,32 @@ export const createFilmCardTemplate = ({
           <span class="film-card__comments">${countComment} comments</span>
       </a>
         <div class="film-card__controls">
-          ${controlsItemButton}
+          ${createlsItemButton(controlsItemButton)}
         </div>
-    </article>`
-  );
-};
+  </article>`
+);
+
+export default class FilmCardView {
+  #element = null;
+  #cards = null;
+
+  constructor(cards) {
+    this.#cards = cards;
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  get template() {
+    return createFilmCardTemplate(this.#cards);
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}

@@ -1,14 +1,10 @@
 import { createElement } from '../utils/helpers.js';
 
-const createSortViewTemplate = () => (
-  `<ul class="sort">
-    <li><a href="#" class="sort__button sort__button--active">Sort by default</a></li>
-    <li><a href="#" class="sort__button">Sort by date</a></li>
-    <li><a href="#" class="sort__button">Sort by rating</a></li>
-  </ul>`
+const createFilterSortTemplate = () => (
+  '<section class="sort"></section>'
 );
 
-export default class SortView {
+export default class FilterSortView {
   #element = null;
   #filters = null;
 
@@ -25,7 +21,7 @@ export default class SortView {
   }
 
   get template() {
-    return createSortViewTemplate(this.#filters);
+    return createFilterSortTemplate(this.#filters);
   }
 
   removeElement() {

@@ -1,10 +1,15 @@
 import { createElement } from '../utils/helpers.js';
 
-const createShowMoreTemplate = () =>
-  '<button class="films-list__show-more">Show more</button>';
+const createLoadingTemplate = () => (
+  '<h2 class="films-list__title">Loading...</h2>'
+);
 
-export default class ShowMoreView {
+export default class LoadingView {
   #element = null;
+  #cards = null;
+  constructor(cards) {
+    this.#cards = cards;
+  }
 
   get element() {
     if (!this.#element) {
@@ -15,7 +20,7 @@ export default class ShowMoreView {
   }
 
   get template() {
-    return createShowMoreTemplate();
+    return createLoadingTemplate(this.#cards);
   }
 
   removeElement() {

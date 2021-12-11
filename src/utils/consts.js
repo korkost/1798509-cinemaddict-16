@@ -5,6 +5,16 @@ export const RenderPosition = {
   AFTER_END: 'afterend',
 };
 
+export const Selectors = {
+  FILM_LIST: '.films-list',
+  MAIN: '.main',
+  HEADER: '.header',
+  FILM_CONTAINER: '.films-list__container',
+  FILM_CARD: '.film-card__link',
+  FILM_DETAILS: '.film-details__close-btn',
+  SHOW_MORE: '.films-list__show-more',
+};
+
 export const Date = {
   DATE_MONTH_YEAR: 'D MMMM YYYY',
   YEAR: 'YYYY',
@@ -18,3 +28,4 @@ export const MAX_RATING = 10;
 export const MAX_MINUTES = 59;
 export const NOVICE = 10;
 export const FAN = 20;
+
