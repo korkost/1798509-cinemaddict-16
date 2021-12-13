@@ -18,6 +18,7 @@ export const Selectors = {
 export const Date = {
   DATE_MONTH_YEAR: 'D MMMM YYYY',
   YEAR: 'YYYY',
+  YEAR_MONTH_DATE:'YYYY/MM/D H:mm',
 };
 
 export const FILM_CARD_COUNT = 20;

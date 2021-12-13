@@ -1,18 +1,16 @@
 import { createElement } from '../utils/helpers.js';
 
-const createFilterSortTemplate = () => (
-  '<section class="sort"></section>'
-);
-
-export default class FilterSortView {
+export default class AbstractView {
   #element = null;
-  #filters = null;
-
-  constructor(filters) {
-    this.#filters = filters;
+  _callback = {};
+  constructor() {
+    if (new.target === AbstractView) {
+      throw new Error('Can\'t instantiate AbstractView, only concrete one.');
+    }
   }
 
   get element() {
+
     if (!this.#element) {
       this.#element = createElement(this.template);
     }
@@ -21,7 +19,7 @@ export default class FilterSortView {
   }
 
   get template() {
-    return createFilterSortTemplate(this.#filters);
+    throw new Error('Abstract method not implemented: get template');
   }
 
   removeElement() {

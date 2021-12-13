@@ -1,42 +1,85 @@
-import { datePopup, createElement } from '../utils/helpers.js';
-import { createlsItemButton } from './film-card-view.js';
+import { datePopup, fullDate } from '../utils/task.js';
+import AbstractView from './abstract-view.js';
+import { Selectors } from '../utils/consts.js';
+import cn from 'classnames';
 
-const createPopupFilmTemplate = ({
-  title,
-  description,
-  img,
-  genre,
-  country,
-  rating,
-  director,
-  actors,
-  writers,
-  colorRating,
-  releaseDate,
-  duration,
-  originalTitle,
-  ageRating,
-  commentCount,
-  controlsItemButton,
-  comment,
-  commentImg,
-  commentName,
-}) => {
+const createCommentsList = (comments) => {
 
-  const commentsList = (
+  const { commentImg, comment, commentName, releaseDate } = comments;
+
+  return (
     `<li li class="film-details__comment" >
-      <span class="film-details__comment-emoji">
-        <img src="./images/emoji/${commentImg}" width="55" height="55" alt="emoji-smile">
-      </span>
-        <div>
-          <p class="film-details__comment-text">${comment}</p>
-          <p class="film-details__comment-info">
-            <span class="film-details__comment-author">${commentName}</span>
-            <span class="film-details__comment-day">2019/12/31 23:59</span>
-            <button class="film-details__comment-delete">Delete</button>
-          </p>
-        </div>
+    <span class="film-details__comment-emoji">
+      <img src="./images/emoji/${commentImg}" width="55" height="55" alt="emoji-smile">
+    </span>
+      <div>
+        <p class="film-details__comment-text">${comment}</p>
+        <p class="film-details__comment-info">
+          <span class="film-details__comment-author">${commentName}</span>
+          <span class="film-details__comment-day">${fullDate(releaseDate)}</span>
+          <button class="film-details__comment-delete">Delete</button>
+        </p>
+      </div>
     </li>`
+  );
+};
+
+const createPopupFilmTemplate = (film) => {
+
+  const {
+    title,
+    description,
+    img,
+    genre,
+    country,
+    rating,
+    director,
+    actors,
+    writers,
+    colorRating,
+    releaseDate,
+    duration,
+    originalTitle,
+    ageRating,
+    commentCount,
+    isWatchlist,
+    isWatched,
+    isFavorite,
+  } = film;
+
+  const classesWatchlist = cn(
+    'film-card__controls-item',
+    'film-card__controls-item--add-to-watchlist', {
+      'film-card__controls-item--active': isWatchlist
+    });
+
+  const classesWatched = cn(
+    'film-card__controls-item',
+    'film-card__controls-item--mark-as-watched', {
+      'film-card__controls-item--active': isWatched
+    });
+
+  const classesFavorite = cn(
+    'film-card__controls-item',
+    'film-card__controls-item--favorite', {
+      'film-card__controls-item--active': isFavorite
+    });
+
+  const controlsItemButton = (
+    `<button class="film-card__controls-item ${classesWatchlist}"
+  type="button">
+  Add to watchlist
+  </button>
+
+  <button class="film-card__controls-item ${classesWatched}"
+  type="button"
+  >Mark as watched
+  </button>
+
+  <button class="film-card__controls-item ${classesFavorite}"
+  type="button">
+  Mark as favorite
+  </button>`
   );
 
   return (
@@ -100,14 +143,14 @@ const createPopupFilmTemplate = ({
             </div>
           </div>
           <section class="film-details__controls">
-            ${createlsItemButton(controlsItemButton)}
+            ${controlsItemButton}
           </section>
         </div>
         <div class="film-details__bottom-container">
           <section class="film-details__comments-wrap">
             <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentCount}</span></h3>
             <ul class="film-details__comments-list">
-              ${commentsList}
+              ${createCommentsList(film)}
             </ul>
             <div class="film-details__new-comment">
               <div class="film-details__add-emoji-label"></div>
@@ -140,26 +183,25 @@ const createPopupFilmTemplate = ({
   );
 };
 
-export default class PopupFilmView {
-  #element = null;
+export default class PopupFilmView extends AbstractView {
+
   #cards = null;
   constructor(cards) {
+    super();
     this.#cards = cards;
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
   }
 
   get template() {
     return createPopupFilmTemplate(this.#cards);
   }
 
-  removeElement() {
-    this.#element = null;
+  popupCloseHandler = (callback) => {
+    this._callback.editClick = callback;
+    this.element.querySelector(Selectors.FILM_DETAILS).addEventListener('click', this.#editCloseHandler);
+  }
+
+  #editCloseHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.editClick();
   }
 }
