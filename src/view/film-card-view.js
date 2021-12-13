@@ -55,7 +55,7 @@ const createFilmCardTemplate = ({
   releaseDate,
   duration,
   countComment,
-  controlsItemButton,
+  controlsItemButton
 }) => (
   `<article class="film-card">
       <a class="film-card__link">
@@ -75,6 +75,7 @@ const createFilmCardTemplate = ({
         </div>
   </article>`
 );
+
 
 export default class FilmCardView extends AbstractView {
   #cards = null;

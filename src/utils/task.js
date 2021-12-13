@@ -12,3 +12,5 @@ export const getRating = () => getRandomPositiveFloat(MIN_VALUE, MAX_RATING);
 export const date = (dueDate) => dayjs(dueDate).format(Date.YEAR);
 
 export const datePopup = (dueDate) => dayjs(dueDate).format(Date.DATE_MONTH_YEAR);
+
+export const fullDate = (dueDate) => dayjs(dueDate).format(Date.YEAR_MONTH_DATE);
