@@ -26,47 +26,47 @@ const createCommentsList = (comments) => {
 
 const createPopupFilmTemplate = (film) => {
 
-const {
-  title,
-  description,
-  img,
-  genre,
-  country,
-  rating,
-  director,
-  actors,
-  writers,
-  colorRating,
-  releaseDate,
-  duration,
-  originalTitle,
-  ageRating,
-  commentCount,
-  isWatchlist,
-  isWatched,
-  isFavorite,
-} = film;
+  const {
+    title,
+    description,
+    img,
+    genre,
+    country,
+    rating,
+    director,
+    actors,
+    writers,
+    colorRating,
+    releaseDate,
+    duration,
+    originalTitle,
+    ageRating,
+    commentCount,
+    isWatchlist,
+    isWatched,
+    isFavorite,
+  } = film;
 
-const classesWatchlist = cn(
-  'film-card__controls-item',
-  'film-card__controls-item--add-to-watchlist', {
-  'film-card__controls-item--active': isWatchlist
-});
+  const classesWatchlist = cn(
+    'film-card__controls-item',
+    'film-card__controls-item--add-to-watchlist', {
+      'film-card__controls-item--active': isWatchlist
+    });
 
-const classesWatched = cn(
-  'film-card__controls-item',
-  'film-card__controls-item--mark-as-watched', {
-  'film-card__controls-item--active': isWatched
-});
+  const classesWatched = cn(
+    'film-card__controls-item',
+    'film-card__controls-item--mark-as-watched', {
+      'film-card__controls-item--active': isWatched
+    });
 
-const classesFavorite = cn(
-  'film-card__controls-item',
-  'film-card__controls-item--favorite', {
-  'film-card__controls-item--active': isFavorite
-});
+  const classesFavorite = cn(
+    'film-card__controls-item',
+    'film-card__controls-item--favorite', {
+      'film-card__controls-item--active': isFavorite
+    });
 
-const controlsItemButton = (
-  `<button class="film-card__controls-item ${classesWatchlist}"
+  const controlsItemButton = (
+    `<button class="film-card__controls-item ${classesWatchlist}"
   type="button">
   Add to watchlist
   </button>
@@ -80,7 +80,7 @@ const controlsItemButton = (
   type="button">
   Mark as favorite
   </button>`
-);
+  );
 
   return (
     `<section class="film-details" >
