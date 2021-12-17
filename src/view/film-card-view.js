@@ -1,13 +1,22 @@
 import { date } from '../utils/task.js';
 import cn from 'classnames';
 import AbstractView from './abstract-view.js';
-import { Selectors } from '../utils/consts.js';
+import { Selectors, SHORT_DESC_LENGTH } from '../utils/consts.js';
 
-export const createlsItemButton = (
+const createFilmCardTemplate = ({
+  title,
+  description,
+  img,
+  genre,
+  rating,
+  colorRating,
+  releaseDate,
+  duration,
+  countComment,
   isWatchlist,
   isWatched,
-  isFavorite,
-) => {
+  isFavorite
+}) => {
 
   const classesWatchlist = cn(
     'film-card__controls-item',
@@ -29,35 +38,23 @@ export const createlsItemButton = (
 
   const controlsItemButton = (
     `<button class="film-card__controls-item ${classesWatchlist}"
-    type="button">
-    Add to watchlist
-    </button>
-    <button class="film-card__controls-item ${classesWatched}"
-    type="button"
-    >Mark as watched
-    </button>
-    <button class="film-card__controls-item ${classesFavorite}"
-    type="button">
-    Mark as favorite
-    </button>`
+  type="button">
+  Add to watchlist
+  </button>
+
+  <button class="film-card__controls-item ${classesWatched}"
+  type="button"
+  >Mark as watched
+  </button>
+
+  <button class="film-card__controls-item ${classesFavorite}"
+  type="button">
+  Mark as favorite
+  </button>`
   );
 
-  return controlsItemButton;
-};
-
-const createFilmCardTemplate = ({
-  title,
-  description,
-  img,
-  genre,
-  rating,
-  colorRating,
-  releaseDate,
-  duration,
-  countComment,
-  controlsItemButton
-}) => (
-  `<article class="film-card">
+  return (
+    `<article class="film-card">
       <a class="film-card__link">
         <h3 class="film-card__title">${title}</h3>
         <p class="film-card__rating film-card__rating--${colorRating}">${rating}</p>
@@ -67,15 +64,15 @@ const createFilmCardTemplate = ({
           <span class="film-card__genre">${genre}</span>
         </p>
         <img src="./images/posters/${img}" alt="${title}" class="film-card__poster">
-          <p class="film-card__description">${description}tr…</p>
+          <p class="film-card__description">${(description.length <= SHORT_DESC_LENGTH) ? description : description.slice(0, SHORT_DESC_LENGTH) + '...'}</p>
           <span class="film-card__comments">${countComment} comments</span>
       </a>
         <div class="film-card__controls">
-          ${createlsItemButton(controlsItemButton)}
+          ${controlsItemButton}
         </div>
   </article>`
-);
-
+  );
+};
 
 export default class FilmCardView extends AbstractView {
   #cards = null;

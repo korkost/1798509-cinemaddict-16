@@ -36,3 +36,5 @@ export const generateDuration = () => {
 
   return durations;
 };
+
+export const isPressed = (key) => key === 'Escape' || key === 'Esc';

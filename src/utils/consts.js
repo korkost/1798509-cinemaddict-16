@@ -29,4 +29,4 @@ export const MAX_RATING = 10;
 export const MAX_MINUTES = 59;
 export const NOVICE = 10;
 export const FAN = 20;
-
+export const SHORT_DESC_LENGTH = 139;

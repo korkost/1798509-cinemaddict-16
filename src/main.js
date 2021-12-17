@@ -8,6 +8,7 @@ import FilmsView from './view/films-view.js';
 import LoadingView from './view/loading-view.js';
 import { FILM_CARD_COUNT, FILM_CARD_COUNT_PER_STEP, Selectors } from './utils/consts.js';
 import { render } from './utils/helpers.js';
+import { isPressed } from './utils/common.js';
 import { generateCard } from './mock/film-card.js';
 import { generateFilter } from './mock/filter';
 
@@ -37,8 +38,6 @@ const renderCard = (cardListElement, card) => {
   const removePopup = () => {
     cardListElement.removeChild(cardPopupComponent.element);
   };
-
-  const isPressed = (key) => key === 'Escape' || key === 'Esc';
 
   const onEscKeyDown = (evt) => {
     if (isPressed) {
