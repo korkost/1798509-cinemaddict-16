@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import {
   getRandomInteger,
   generateDate,
@@ -24,6 +25,7 @@ import {
 } from './constants.js';
 
 export const generateCard = () => ({
+  id: nanoid(),
   releaseDate: generateDate(),
   title: TITLES[getRandomInteger(0, TITLES.length - 1)],
   description: DESCRIPTION[getRandomInteger(0, DESCRIPTION.length - 1)],

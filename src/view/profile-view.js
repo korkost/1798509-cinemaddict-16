@@ -1,36 +1,26 @@
-import { FAN, NOVICE } from '../utils/consts.js';
-import AbstractView from './abstract-view.js';
+import AbstractView from './abstract-view';
 
-const createRatingTemplate = (count) => {
-  const getRank = () => {
-    if (count <= NOVICE) {
-      return 'Novice';
-    } else if (count <= FAN) {
-      return 'Fan';
-    } else {
-      return 'Movie buff';
-    }
-  };
+const createProfileTemplate = (profile) => {
+  if (profile) {
+    const { rating, avatar } = profile;
 
-  return `<p class="profile__rating">${getRank(count)}</p>`;
+    return `<section class="header__profile profile">
+    <p class="profile__rating">${rating}</p>
+    <img class="profile__avatar" src=${avatar} alt="Avatar" width="35" height="35">
+    </section>`;
+  }
+  return null;
 };
 
-const createProfileTemplate = (count) => {
-  const rating = count > 0 ? createRatingTemplate(count) : '';
+export class ProfileView extends AbstractView {
+  #profile = null;
 
-  return (
-    `<section class="header__profile profile">
-      ${rating}
-      <img class="profile__avatar" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
-    </section>`
-  );
-};
-
-export default class ProfileView extends AbstractView {
+  constructor(profile) {
+    super();
+    this.#profile = profile;
+  }
 
   get template() {
-
-    return createProfileTemplate();
-
+    return createProfileTemplate(this.#profile);
   }
 }

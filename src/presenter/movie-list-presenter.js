@@ -63,29 +63,44 @@ export default class MovieListPresenter {
         }
       };
 
+      filmCard.setShowDetailsHandler(() => {
+        addFilmDetailsCard();
+        document.addEventListener('keydown', onEscKeyDown);
+      });
 
+      filmDetailsCard.setCloseDetailsCard(() => {
+        removeFilmDetailsCard();
+        document.removeEventListener('keydown', onEscKeyDown);
+      });
 
-  #renderTask = () => {
-    // Метод, куда уйдёт логика созданию и рендерингу компонетов задачи,
-    // текущая функция renderTask в main.js
-  }
+      render(filmElement, filmCard);
+    };
 
-  #renderTasks = () => {
-    // Метод для рендеринга N-задач за раз
-  }
+    for (const film of this.#films.slice(0, FILM_CARD_COUNT_PER_STEP)) {
+      renderFilm(this.#filmsListContainerComponent, film);
+    }
 
-  #renderNoTasks = () => {
-    // Метод для рендеринга заглушки
-  }
+    if (this.#films.length > FILM_CARD_COUNT_PER_STEP) {
+      let renderFilmCount = FILM_CARD_COUNT_PER_STEP;
 
-  #renderLoadMoreButton = () => {
-    // Метод, куда уйдёт логика по отрисовке кнопки допоказа задач,
-    // сейчас в main.js является частью renderBoard
-  }
+      const showMoreButton = new ShowMoreView();
+      render(this.#filmsListComponent, showMoreButton);
+      const showMoreElement = this.#filmsListComponent.element.querySelector(Selectors.SHOW_MORE);
 
-  #renderBoard = () => {
-    // Метод для инициализации (начала работы) модуля,
-    // бОльшая часть текущей функции renderBoard в main.js
-  }
-}
+      showMoreElement.addEventListener('click', (evt) => {
+        evt.preventDefault();
+        this.#films
+          .slice(renderFilmCount, renderFilmCount + FILM_CARD_COUNT_PER_STEP)
+          .forEach((film) => {
+            renderFilm(this.#filmsListContainerComponent, film);
+          });
+
+        renderFilmCount += FILM_CARD_COUNT_PER_STEP;
+
+        if (renderFilmCount >= this.#films.length) {
+          showMoreElement.remove();
+        }
+      });
+    }
+  };
 }

@@ -1,95 +1,36 @@
 import SiteMenuView from './view/site-menu-view.js';
-import PopupFilmView from './view/popup-film-view.js';
-import FilmCardView from './view/film-card-view.js';
 import SortView from './view/sort-view.js';
-import ShowMoreView from './view/show-more-view.js';
 import ProfileView from './view/profile-view.js';
-import FilmsView from './view/films-view.js';
-import LoadingView from './view/loading-view.js';
-import { FILM_CARD_COUNT, FILM_CARD_COUNT_PER_STEP, Selectors } from './utils/consts.js';
+import FooterStatisticsView from './view/footer-statistics-view.js';
+import { FILM_CARD_COUNT, Selectors } from './utils/consts.js';
 import { render } from './utils/helpers.js';
-import { isPressed } from './utils/common.js';
+import { MovieListPresenter } from './presenter/movie-list-presenter.js';
 import { generateCard } from './mock/film-card.js';
-import { generateFilter } from './mock/filter';
+import { generateFilter } from './mock/filter.js';
+import { generateProfile } from './mock/profile.js';
 
 const cards = Array.from({ length: FILM_CARD_COUNT }, generateCard);
 const filters = generateFilter(cards);
+const profile = generateProfile();
 
-const siteMainElement = document.querySelector(Selectors.MAIN);
-const siteNavigationElement = document.querySelector(Selectors.HEADER);
+const bodyElement = document.querySelector('body');
+const headerElement = bodyElement.querySelector(Selectors.HEADER);
+const mainElement = bodyElement.querySelector(Selectors.MAIN);
+const footerElement = bodyElement.querySelector(Selectors.FOOTER);
+const footerStatisticElement = footerElement.querySelector(Selectors.FOOTER_STATISTICS)
 
-render(siteMainElement, new SiteMenuView(filters));
-render(siteNavigationElement, new ProfileView());
-render(siteMainElement, new SortView());
-render(siteMainElement, new FilmsView());
+render(mainElement, new SiteMenuView().element);
 
-const filmMainElement = siteMainElement.querySelector(Selectors.FILM_LIST);
-const filmListElement = filmMainElement.querySelector(Selectors.FILM_CONTAINER);
+const navigationElement = mainElement.querySelector(Selectors.MAIN_NAVIGATION);
+render(navigationElement, new SiteMenuView(filters).element);
 
-const renderCard = (cardListElement, card) => {
-  const cardComponent = new FilmCardView(card);
-  const cardPopupComponent = new PopupFilmView(card);
-  const body = document.body;
+const movieListPresenter = new MovieListPresenter(mainElement);
 
-  const appendPopup = () => {
-    cardListElement.appendChild(cardPopupComponent.element);
-  };
+if (cards.length) {
+  render(headerElement, new ProfileView(profile).element);
+  render(navigationElement, new SortView().element, RenderPosition.AFTER_END);
+}
 
-  const removePopup = () => {
-    cardListElement.removeChild(cardPopupComponent.element);
-  };
+movieListPresenter.init(films);
 
-  const onEscKeyDown = (evt) => {
-    if (isPressed) {
-      evt.preventDefault();
-      removePopup();
-      body.classList.remove('hide-overflow');
-      document.removeEventListener('keydown', onEscKeyDown);
-    }
-  };
-
-  cardComponent.cardClickHandler(() => {
-    appendPopup();
-    body.classList.add('hide-overflow');
-    document.addEventListener('keydown', onEscKeyDown);
-  });
-
-  cardPopupComponent.popupCloseHandler(() => {
-    document.removeEventListener('keydown', onEscKeyDown);
-    removePopup();
-    body.classList.remove('hide-overflow');
-  });
-
-  render(cardListElement, cardComponent);
-};
-
-const renderCards = () => {
-
-  if (cards.length === 0) {
-    render(filmListElement, new LoadingView());
-  }
-
-  for (let i = 0; i < Math.min(cards.length, FILM_CARD_COUNT_PER_STEP); i++) {
-    renderCard(filmListElement, cards[i]);
-  }
-
-  if (cards.length > FILM_CARD_COUNT_PER_STEP) {
-    let renderCount = FILM_CARD_COUNT_PER_STEP;
-    render(filmMainElement, new ShowMoreView());
-
-    const loadButton = filmMainElement.querySelector(Selectors.SHOW_MORE);
-    loadButton.addEventListener('click', (evt) => {
-      evt.preventDefault();
-      cards
-        .slice(renderCount, renderCount + FILM_CARD_COUNT_PER_STEP)
-        .forEach((card) => renderCard(filmListElement, card));
-
-      renderCount += FILM_CARD_COUNT_PER_STEP;
-
-      if (renderCount >= cards.length) {
-        loadButton.remove();
-      }
-    });
-  }
-};
-renderCards();
+render(footerStatisticElement, new FooterStatisticsView(cards.length).element);
