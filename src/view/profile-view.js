@@ -12,7 +12,7 @@ const createProfileTemplate = (profile) => {
   return null;
 };
 
-export class ProfileView extends AbstractView {
+export default class ProfileView extends AbstractView {
   #profile = null;
 
   constructor(profile) {

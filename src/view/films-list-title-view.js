@@ -6,7 +6,7 @@ const createFilmsListTitleTemplate = (count = 0) => (
     : 'There are no movies in our database'
   }</h2>`);
 
-export class FilmsListTitle extends AbstractView {
+export default class FilmsListTitle extends AbstractView {
   #count = null;
 
   constructor(count) {
