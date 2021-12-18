@@ -195,13 +195,50 @@ export default class PopupFilmView extends AbstractView {
     return createPopupFilmTemplate(this.#cards);
   }
 
-  popupCloseHandler = (callback) => {
-    this._callback.editClick = callback;
-    this.element.querySelector(Selectors.FILM_DETAILS).addEventListener('click', this.#editCloseHandler);
-  }
+  #onClose = () => {
+    this._callback.closeDetails();
+  };
 
-  #editCloseHandler = (evt) => {
+  setCloseDetailsCardHandler = (calback) => {
+    this._callback.closeDetails = calback;
+    this.element
+      .querySelector(Selectors.FILM_DETAILS)
+      .addEventListener('click', this.#onClose);
+  };
+
+  #onAddToWatchListClick = (evt) => {
     evt.preventDefault();
-    this._callback.editClick();
-  }
+    this._callback.addToWatchList();
+  };
+
+  setAddToWatchListHandler = (callback) => {
+    this._callback.addToWatchList = callback;
+    this.element
+      .querySelector(Selectors.FILM_DETAILS_WATCHLIST)
+      .addEventListener('click', this.#onAddToWatchListClick);
+  };
+
+  #onMarkAsWatchedClick = (evt) => {
+    evt.preventDefault();
+    this._callback.markAsWatched();
+  };
+
+  setMarkAsWatchedHandler = (callback) => {
+    this._callback.markAsWatched = callback;
+    this.element
+      .querySelector(Selectors.FILM_DETAILS_WATCHED)
+      .addEventListener('click', this.#onMarkAsWatchedClick);
+  };
+
+  #onMarkAsFavoriteClick = (evt) => {
+    evt.preventDefault();
+    this._callback.markAsFavorite();
+  };
+
+  setMarkAsFavoriteHandler = (callback) => {
+    this._callback.markAsFavorite = callback;
+    this.element
+      .querySelector(Selectors.FILM_DETAILS_FAVORITE)
+      .addEventListener('click', this.#onMarkAsFavoriteClick);
+  };
 }

@@ -13,8 +13,14 @@ export const Selectors = {
   FOOTER_STATISTICS: '.footer__statistics',
   MAIN_NAVIGATION: '.main-navigation',
   FILM_CONTAINER: '.films-list__container',
-  FILM_CARD: '.film-card__link',
+  FILM_CARD_LINK: '.film-card__link',
+  FILM_CARD_WATCHLIST: '.film-card__controls-item--add-to-watchlist',
+  FILM_CARD_WATCHED: '.film-card__controls-item--mark-as-watched',
+  FILM_CARD_FAVORITE: '.film-card__controls-item--favorite',
   FILM_DETAILS: '.film-details__close-btn',
+  FILM_DETAILS_WATCHLIST: '.film-details__control-button--watchlist',
+  FILM_DETAILS_WATCHED: '.film-details__control-button--watched',
+  FILM_DETAILS_FAVORITE: '.film-details__control-button--favorite',
   SHOW_MORE: '.films-list__show-more',
 };
 

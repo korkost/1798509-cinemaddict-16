@@ -3,6 +3,7 @@ import FilmsLisrExtraView from '../view/film-list-container-view.js';
 import FilmsListTitle from '../view/films-list-title-view.js';
 import FilmsListContainerView from '../view/film-list-container-view.js';
 import ShowMoreView from '../view/show-more-view.js';
+import MoviePresenter from './movie-presenter.js';
 import { render, remove } from '../utils/helpers.js';
 import { FILM_CARD_COUNT_PER_STEP } from '../utils/consts.js';
 
@@ -30,7 +31,7 @@ export default class MovieListPresenter {
   }
 
   #onFilmChange = (updatedFilm) => {
-    this.films = this.#films.map((film) => film.id === updatedFilm.id ? updatedFilm : film);
+    this.#films = this.#films.map((film) => film.id === updatedFilm.id ? updatedFilm : film);
     this.#filmPresenterMap.get(updatedFilm.id).init(updatedFilm);
   };
 
@@ -42,7 +43,7 @@ export default class MovieListPresenter {
   };
 
   #renderFilm = (film) => {
-    const movePresenter = new MoviePresenter(this.#filmsListContainerComponent);
+    const movePresenter = new MoviePresenter(this.#filmsListContainerComponent, this.#onFilmChange);
     movePresenter.init(film);
     this.#filmPresenterMap.set(film.id, movePresenter);
   };
