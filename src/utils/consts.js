@@ -30,6 +30,12 @@ export const Date = {
   YEAR_MONTH_DATE:'YYYY/MM/D H:mm',
 };
 
+export const SortType = {
+  DEFAULT: 'default',
+  BY_DATE: 'by-date',
+  BY_RATING: 'by-rating',
+};
+
 export const FILM_CARD_COUNT = 20;
 export const FILM_CARD_COUNT_PER_STEP = 5;
 export const MAX_DAYS_GAP = 36000;

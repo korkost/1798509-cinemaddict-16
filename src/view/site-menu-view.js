@@ -3,13 +3,13 @@ import AbstractView from './abstract-view.js';
 const createSiteMenuItemTemplate = (filter) => {
   const { name, count } = filter;
   return (
-    `<a href="#" class="main-navigation__item">${name} <span class="main-navigation__item-count">${count}</span></a>`
+    `<a href="#${name}" class="main-navigation__item">${name.substring(0, 1).toUpperCase() + name.substring(1)} <span class="main-navigation__item-count">${count}</span></a>`
   );
 };
 
-const createSiteMenuTemplate = (filterItems) => {
-  const filterItemsTemplate = filterItems
-    .map((filter, index) => createSiteMenuItemTemplate(filter, index === 0))
+const createSiteMenuTemplate = (filters) => {
+  const filterItemsTemplate = filters
+    .map((filter) => createSiteMenuItemTemplate(filter))
     .join('');
 
   return (

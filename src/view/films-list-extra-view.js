@@ -1,24 +1,17 @@
 import AbstractView from './abstract-view.js';
 
-const createFilmsContainerTemplate = (title, isExtra = true) => (
-  `<section class="films-list ${isExtra ? 'films-list--extra' : ''}">
-    <h2 class="films-list__title ${!isExtra ? 'visually-hidden' : ''}">
-      ${title}
-    </h2>
-  </section>`
+const createFilmsListTemplate = (extraClass) => (
+  `<section class="films-list ${extraClass ? extraClass : ''}"></section>`
 );
 
 export default class FilmsLisrExtraView extends AbstractView {
-  #title = null;
-  #isExtra = true;
-
-  constructor(title, isExtra) {
+  #extraClass;
+  constructor(extraClass) {
     super();
-    this.#title = title;
-    this.#isExtra = isExtra;
+    this.#extraClass = extraClass;
   }
 
   get template() {
-    return createFilmsContainerTemplate(this.#title, this.#isExtra);
+    return createFilmsListTemplate(this.#extraClass);
   }
 }

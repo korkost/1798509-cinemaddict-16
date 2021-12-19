@@ -1,36 +1,27 @@
-import SiteMenuView from './view/site-menu-view.js';
-import SortView from './view/sort-view.js';
 import ProfileView from './view/profile-view.js';
-import FooterStatisticsView from './view/footer-statistics-view.js';
-import MovieListPresenter from './presenter/movie-list-presenter.js';
+import FilmsCounterView from './view/films-counter-view';
+import FilmsListPresenter from './presenter/films-list-presenter.js';
 import { FILM_CARD_COUNT, Selectors } from './utils/consts.js';
 import { render } from './utils/helpers.js';
 import { generateCard } from './mock/film-card.js';
-import { generateFilter } from './mock/filter.js';
-import { generateProfile } from './mock/profile.js';
 
-const cards = Array.from({ length: FILM_CARD_COUNT }, generateCard);
-const filters = generateFilter(cards);
-const profile = generateProfile();
+const headerElement = document.querySelector(Selectors.HEADER);
+const mainElement = document.querySelector(Selectors.MAIN);
+const footerElement = document.querySelector(Selectors.FOOTER);
+const footerStatistics = footerElement.querySelector(Selectors.FOOTER_STATISTICS)
 
-const bodyElement = document.querySelector('body');
-const headerElement = bodyElement.querySelector(Selectors.HEADER);
-const mainElement = bodyElement.querySelector(Selectors.MAIN);
-const footerElement = bodyElement.querySelector(Selectors.FOOTER);
-const footerStatisticElement = footerElement.querySelector(Selectors.FOOTER_STATISTICS)
+const getAllFilms = () => {
+  const filmsList = [];
+  for (let i = 0; i < FILM_CARD_COUNT; i++) {
+    filmsList.push(generateCard());
+  }
+  return filmsList;
+};
+const filmsFixture = getAllFilms();
 
-render(mainElement, new SiteMenuView().element);
+render(headerElement, new ProfileView());
+render(footerStatistics, new FilmsCounterView(filmsFixture));
 
-const navigationElement = mainElement.querySelector(Selectors.MAIN_NAVIGATION);
-render(navigationElement, new SiteMenuView(filters).element);
+const filmsPresenter = new FilmsListPresenter(mainElement);
 
-const movieListPresenter = new MovieListPresenter(mainElement);
-
-if (cards.length) {
-  render(headerElement, new ProfileView(profile).element);
-  render(navigationElement, new SortView().element, RenderPosition.AFTER_END);
-}
-
-movieListPresenter.init(films);
-
-render(footerStatisticElement, new FooterStatisticsView(cards.length).element);
+filmsPresenter.init(filmsFixture);

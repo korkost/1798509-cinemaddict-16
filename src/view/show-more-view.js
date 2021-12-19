@@ -10,14 +10,13 @@ export default class ShowMoreView extends AbstractView {
     return createShowMoreTemplate();
   }
 
-  #onShowNext = (evt) => {
-    evt.preventDefault();
-    this._callback.clickShowNext();
-  };
+  setAddCardsClickHandler = (callback) => {
+    this._callback.addCards = callback;
+    this.element.addEventListener('click', this.#addCardsClickHandler);
+  }
 
-  setClickHandler = (callback) => {
-    this._callback.clickShowNext = callback;
-    this.element
-      .addEventListener('click', this.#onShowNext);
+  #addCardsClickHandler = (e) => {
+    e.preventDefault();
+    this._callback.addCards();
   };
 }

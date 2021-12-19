@@ -195,50 +195,13 @@ export default class PopupFilmView extends AbstractView {
     return createPopupFilmTemplate(this.#cards);
   }
 
-  #onClose = () => {
-    this._callback.closeDetails();
-  };
+  setClosePopupClickHandler = (callback) => {
+    this._callback.closePopup = callback;
+    this.element.querySelector('.film-details__close-btn').addEventListener('click', this.#closePopupClickHandler);
+  }
 
-  setCloseDetailsCardHandler = (calback) => {
-    this._callback.closeDetails = calback;
-    this.element
-      .querySelector(Selectors.FILM_DETAILS)
-      .addEventListener('click', this.#onClose);
-  };
-
-  #onAddToWatchListClick = (evt) => {
-    evt.preventDefault();
-    this._callback.addToWatchList();
-  };
-
-  setAddToWatchListHandler = (callback) => {
-    this._callback.addToWatchList = callback;
-    this.element
-      .querySelector(Selectors.FILM_DETAILS_WATCHLIST)
-      .addEventListener('click', this.#onAddToWatchListClick);
-  };
-
-  #onMarkAsWatchedClick = (evt) => {
-    evt.preventDefault();
-    this._callback.markAsWatched();
-  };
-
-  setMarkAsWatchedHandler = (callback) => {
-    this._callback.markAsWatched = callback;
-    this.element
-      .querySelector(Selectors.FILM_DETAILS_WATCHED)
-      .addEventListener('click', this.#onMarkAsWatchedClick);
-  };
-
-  #onMarkAsFavoriteClick = (evt) => {
-    evt.preventDefault();
-    this._callback.markAsFavorite();
-  };
-
-  setMarkAsFavoriteHandler = (callback) => {
-    this._callback.markAsFavorite = callback;
-    this.element
-      .querySelector(Selectors.FILM_DETAILS_FAVORITE)
-      .addEventListener('click', this.#onMarkAsFavoriteClick);
-  };
+  #closePopupClickHandler = (e) => {
+    e.preventDefault();
+    this._callback.closePopup();
+  }
 }
