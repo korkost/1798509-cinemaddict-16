@@ -43,7 +43,7 @@ const createPopupFilmTemplate = (film) => {
     ageRating,
     commentCount,
     isWatchlist,
-    isWatched,
+    isAlreadyWatched,
     isFavorite,
   } = film;
 
@@ -56,7 +56,7 @@ const createPopupFilmTemplate = (film) => {
   const classesWatched = cn(
     'film-card__controls-item',
     'film-card__controls-item--mark-as-watched', {
-      'film-card__controls-item--active': isWatched
+      'film-card__controls-item--active': isAlreadyWatched
     });
 
   const classesFavorite = cn(

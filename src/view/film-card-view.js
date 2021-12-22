@@ -14,7 +14,7 @@ const createFilmCardTemplate = ({
   duration,
   countComment,
   isWatchlist,
-  isWatched,
+  isAlreadyWatched,
   isFavorite
 }) => {
 
@@ -27,7 +27,7 @@ const createFilmCardTemplate = ({
   const classesWatched = cn(
     'film-card__controls-item',
     'film-card__controls-item--mark-as-watched', {
-      'film-card__controls-item--active': isWatched
+      'film-card__controls-item--active': isAlreadyWatched,
     });
 
   const classesFavorite = cn(
@@ -75,7 +75,7 @@ const createFilmCardTemplate = ({
 };
 
 export default class FilmCardView extends AbstractView {
-  #cards = null;
+  #cards;
 
   constructor(cards) {
     super();
@@ -106,18 +106,18 @@ export default class FilmCardView extends AbstractView {
     this.element.querySelector('.film-card__controls-item--add-to-watchlist').addEventListener('click', this.#watchListClickHandler);
   }
 
-  #favoriteClickHandler = (e) => {
-    e.preventDefault();
+  #favoriteClickHandler = (evt) => {
+    evt.preventDefault();
     this._callback.favoriteClick();
   }
 
-  #alreadyWatchedClickHandler = (e) => {
-    e.preventDefault();
+  #alreadyWatchedClickHandler = (evt) => {
+    evt.preventDefault();
     this._callback.alreadyWatchedClick();
   }
 
-  #watchListClickHandler = (e) => {
-    e.preventDefault();
+  #watchListClickHandler = (evt) => {
+    evt.preventDefault();
     this._callback.watchlistClick();
   }
 

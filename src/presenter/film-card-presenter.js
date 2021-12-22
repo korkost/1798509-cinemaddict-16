@@ -3,11 +3,6 @@ import FilmCardView from '../view/film-card-view.js';
 import { render, replace, remove } from '../utils/helpers.js';
 import { RenderPosition } from '../utils/consts.js';
 
-const Mode = {
-  DEFAULT: 'DEFAULT',
-  EDITING: 'EDITING',
-};
-
 export default class FilmCardPresenter {
   #filmsListContainerComponent = null;
   #filmCardComponent = null;
@@ -17,7 +12,7 @@ export default class FilmCardPresenter {
 
   #changeData = null;
   #state = null;
-  #film = null;
+  #card = null;
 
   constructor(filmsListContainer, changeData, state) {
     this.#filmsListContainerComponent = filmsListContainer;
@@ -25,13 +20,13 @@ export default class FilmCardPresenter {
     this.#state = state;
   }
 
-  init = (film) => {
-    this.#film = film;
+  init = (card) => {
+    this.#card = card;
 
     const prevFilmComponent = this.#filmCardComponent;
 
-    this.#filmCardComponent = new FilmCardView(film);
-    this.#filmDetailsComponent = new PopupFilmView(film);
+    this.#filmCardComponent = new FilmCardView(card);
+    this.#filmDetailsComponent = new PopupFilmView(card);
 
     this.#filmCardComponent.setOpenPopupClickHandler(this.#handleOpenPopup);
     this.#filmCardComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
@@ -67,15 +62,15 @@ export default class FilmCardPresenter {
   };
 
   #handleFavoriteClick = () => {
-    this.#changeData({...this.#film, isFavorite: !this.#film.isFavorite});
+    this.#changeData({...this.#card, isFavorite: !this.#card.isFavorite});
   }
 
   #handleAlreadyWatchedClick = () => {
-    this.#changeData({...this.#film, isAlreadyWatched: !this.#film.isAlreadyWatched});
+    this.#changeData({...this.#card, isAlreadyWatched: !this.#card.isAlreadyWatched});
   }
 
   #handleWatchListClick = () => {
-    this.#changeData({...this.#film, isWatchList: !this.#film.isWatchList});
+    this.#changeData({...this.#card, isWatchList: !this.#card.isWatchList});
   }
 
   #handleOpenPopup = () => {

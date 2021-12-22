@@ -35,9 +35,9 @@ export default class FilmsListPresenter {
     this.#mainContainer = mainContainer;
   }
 
-  init = (films) => {
-    this.#filmsData = films;
-    this.#sourceFilmsData = [...films];
+  init = (cards) => {
+    this.#filmsData = cards;
+    this.#sourceFilmsData = [...cards];
     this.#filtersComponent = new SiteMenuView(generateFilter(this.#filmsData));
 
     this.#renderFilters();
@@ -88,10 +88,10 @@ export default class FilmsListPresenter {
     this.#filmPresenter.get(updatedFilm.id).init(updatedFilm);
   }
 
-  #renderFilm = (film) => {
+  #renderFilm = (card) => {
     const filmPresenter = new FilmCardPresenter(this.#filmsListContainerComponent, this.#handleFilmChange, this.#state);
-    filmPresenter.init(film);
-    this.#filmPresenter.set(film.id, filmPresenter);
+    filmPresenter.init(card);
+    this.#filmPresenter.set(card.id, filmPresenter);
   }
 
   #clearFilmsList = () => {
@@ -104,7 +104,7 @@ export default class FilmsListPresenter {
   #renderFilms = (from, to) => {
     this.#filmsData
       .slice(from, to)
-      .forEach((film) => this.#renderFilm(film));
+      .forEach((card) => this.#renderFilm(card));
   }
 
   #handleShowMoreButtonClick = () => {
