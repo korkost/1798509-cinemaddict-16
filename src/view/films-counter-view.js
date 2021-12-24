@@ -1,9 +1,9 @@
 import AbstractView from './abstract-view';
 
 const createFilmsCounterTemplate = (getAllFilms) =>
-(
-  `<p>${getAllFilms.length} movies inside</p>`
-);
+  (
+    `<p>${getAllFilms.length} movies inside</p>`
+  );
 
 export default class FilmsCounterView extends AbstractView {
   #count = null;

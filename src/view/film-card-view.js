@@ -1,7 +1,7 @@
 import { date } from '../utils/task.js';
 import cn from 'classnames';
 import AbstractView from './abstract-view.js';
-import { Selectors, SHORT_DESC_LENGTH } from '../utils/consts.js';
+import { Selectors } from '../utils/consts.js';
 
 const createFilmCardTemplate = ({
   title,
@@ -64,7 +64,7 @@ const createFilmCardTemplate = ({
           <span class="film-card__genre">${genre}</span>
         </p>
         <img src="./images/posters/${img}" alt="${title}" class="film-card__poster">
-          <p class="film-card__description">${(description.length <= SHORT_DESC_LENGTH) ? description : description.slice(0, SHORT_DESC_LENGTH) + '...'}</p>
+          <p class="film-card__description">${description}tr…</p>
           <span class="film-card__comments">${countComment} comments</span>
       </a>
         <div class="film-card__controls">
@@ -86,6 +86,7 @@ export default class FilmCardView extends AbstractView {
 
     return createFilmCardTemplate(this.#cards);
   }
+
   setOpenPopupClickHandler = (callback) => {
     this._callback.openPopup = callback;
     this.element.querySelector('.film-card__link').addEventListener('click', this.#openPopupHandler);

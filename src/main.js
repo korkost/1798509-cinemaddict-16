@@ -8,7 +8,7 @@ import { generateCard } from './mock/film-card.js';
 const headerElement = document.querySelector(Selectors.HEADER);
 const mainElement = document.querySelector(Selectors.MAIN);
 const footerElement = document.querySelector(Selectors.FOOTER);
-const footerStatistics = footerElement.querySelector(Selectors.FOOTER_STATISTICS)
+const footerStatistics = footerElement.querySelector(Selectors.FOOTER_STATISTICS);
 
 const getAllFilms = () => {
   const filmsList = [];
