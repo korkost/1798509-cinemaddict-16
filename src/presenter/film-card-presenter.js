@@ -31,7 +31,7 @@ export default class FilmCardPresenter {
     this.#filmCardComponent.setOpenPopupClickHandler(this.#handleOpenPopup);
     this.#filmCardComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
     this.#filmCardComponent.setAlreadyWatchedClickHandler(this.#handleAlreadyWatchedClick);
-    this.#filmCardComponent.setWatchlistClickHandler(this.#handleWatchListClick);
+    this.#filmCardComponent.setWatchlistClickHandler(this.#handleWatchlistClick);
     this.#filmDetailsComponent.setClosePopupClickHandler(this.#handleClosePopup);
 
     if (prevFilmComponent === null) {
@@ -69,8 +69,8 @@ export default class FilmCardPresenter {
     this.#changeData({...this.#card, isAlreadyWatched: !this.#card.isAlreadyWatched});
   }
 
-  #handleWatchListClick = () => {
-    this.#changeData({...this.#card, isWatchList: !this.#card.isWatchList});
+  #handleWatchlistClick = () => {
+    this.#changeData({...this.#card, isWatchlist: !this.#card.isWatchlist});
   }
 
   #handleOpenPopup = () => {
