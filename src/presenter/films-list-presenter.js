@@ -49,7 +49,7 @@ export default class FilmsListPresenter {
   #sortFilms = (sortType) => {
     switch (sortType) {
       case SortType.BY_DATE: {
-        this.#filmsData.sort((a, b) => dayjs(a.release.date).year() > dayjs(b.release.date).year() ? 1 : -1);
+        this.#filmsData.sort((a, b) => dayjs(a.date).year() > dayjs(b.date).year() ? 1 : -1);
         break;
       }
       case SortType.BY_RATING: {

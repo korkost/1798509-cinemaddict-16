@@ -4,6 +4,7 @@ import FilmsListPresenter from './presenter/films-list-presenter.js';
 import { FILM_CARD_COUNT, Selectors } from './utils/consts.js';
 import { render } from './utils/helpers.js';
 import { generateCard } from './mock/film-card.js';
+import { RenderPosition } from './utils/consts.js';
 
 const headerElement = document.querySelector(Selectors.HEADER);
 const mainElement = document.querySelector(Selectors.MAIN);
@@ -19,8 +20,8 @@ const getAllFilms = () => {
 };
 const filmsFixture = getAllFilms();
 
-render(headerElement, new ProfileView());
-render(footerStatistics, new FilmsCounterView(filmsFixture));
+render(headerElement, new ProfileView(), RenderPosition.BEFORE_END);
+render(footerStatistics, new FilmsCounterView(filmsFixture), RenderPosition.BEFORE_END);
 
 const filmsPresenter = new FilmsListPresenter(mainElement);
 

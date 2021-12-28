@@ -27,6 +27,7 @@ const createCommentsList = (comments) => {
 const createPopupFilmTemplate = (film) => {
 
   const {
+    id,
     title,
     description,
     img,
@@ -89,7 +90,7 @@ const createPopupFilmTemplate = (film) => {
           <div class="film-details__close">
             <button class="film-details__close-btn" type="button">close</button>
           </div>
-          <div class="film-details__info-wrap">
+          <div id="${id}" class="film-details__info-wrap">
             <div class="film-details__poster">
               <img class="film-details__poster-img" src="./images/posters/${img}" alt="${title}">
                 <p class="film-details__age">${ageRating}</p>
@@ -142,14 +143,14 @@ const createPopupFilmTemplate = (film) => {
               </p>
             </div>
           </div>
-          <section class="film-details__controls">
+          <section id="${id}" class="film-details__controls">
             ${controlsItemButton}
           </section>
         </div>
         <div class="film-details__bottom-container">
           <section class="film-details__comments-wrap">
             <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentCount}</span></h3>
-            <ul class="film-details__comments-list">
+            <ul id="${id}" class="film-details__comments-list">
               ${createCommentsList(film)}
             </ul>
             <div class="film-details__new-comment">
