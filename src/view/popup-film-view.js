@@ -1,6 +1,5 @@
 import { datePopup, fullDate } from '../utils/task.js';
 import AbstractView from './abstract-view.js';
-import { Selectors } from '../utils/consts.js';
 import cn from 'classnames';
 
 const createCommentsList = (comments) => {
