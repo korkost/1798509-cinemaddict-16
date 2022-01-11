@@ -1,10 +1,9 @@
+import Chart from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import SmartView from '../smart-view.js';
 import { StatisticsType, Selectors } from '../../utils/consts.js';
 import { getGenres, filmsToFilterMap } from '../../utils/statistics.js';
 import { createStatsScreenTemplate } from './statistics.js';
-
-const Chart = require('chart.js');
-const ChartDataLabels = require('chartjs-plugin-datalabels');
 
 const CHART_VALUE = {
   TYPE: 'horizontalBar',
