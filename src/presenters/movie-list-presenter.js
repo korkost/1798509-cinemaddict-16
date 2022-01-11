@@ -20,7 +20,7 @@ import SortView from '../view/sort-view.js';
 import FilmView from '../view/film-view.js';
 import FilmsListContainerView from '../view/films-list-container-view.js';
 import FilmCardView from '../view/film-card/film-card-view.js';
-import Popup from '../view/popup/popup.js';
+import PopupView from '../view/popup/popup-view.js';
 import ShowMoreButtonView from '../view/show-more-button-view.js';
 import NoFilmView from '../view/no-film-view.js';
 
@@ -171,7 +171,7 @@ export default class MovieListPresenter {
 
     const prevPopupComponent = this.#popupComponent;
 
-    this.#popupComponent = new Popup(data, comments);
+    this.#popupComponent = new PopupView(data, comments);
     render(this.#popupContainer, this.#popupComponent, RenderPosition.BEFORE_END);
 
     this.#popupContainer.classList.add('hide-overflow');

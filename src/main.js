@@ -13,10 +13,10 @@ import MoviesModel from './models/movies-model.js';
 import CommentsModel from './models/comments-model.js';
 import FilterModel from './models/filter-model.js';
 import FilterPresenter from './presenters/filter-presenter.js';
-import Statistics from './view/statistics/statistics.js';
+import StatisticsView from './view/statistics/statistics-view.js';
 import MenuView from './view/menu-view.js';
 
-const FILM_COUNT = 22;
+const FILM_COUNT = 20;
 
 const films = Array.from({ length: FILM_COUNT }, generateFilm);
 
@@ -33,21 +33,16 @@ const siteHeaderElement = document.querySelector(Selectors.HEADER);
 const siteFooterElement = document.querySelector(Selectors.FOOTER);
 const siteBodyElement = document.querySelector('body');
 
-//Профиль:
 render(siteHeaderElement, new ProfileView(), RenderPosition.BEFORE_END);
 
-//Меню:
 const siteMenu = new MenuView();
 render(siteMainElement, siteMenu, RenderPosition.BEFORE_END);
 
-//Фильмы, список:
 const movieListPresenter = new MovieListPresenter(siteMainElement, siteBodyElement, moviesModel, commentsModel, filterModel);
 new FilterPresenter(siteMenu, filterModel, moviesModel);
 
-//Количество фильмов
 render(siteFooterElement, new NumberOfFilmsView(films), RenderPosition.BEFORE_END);
 
-//Cтатистика
 let statisticsComponent = null;
 
 const handleSiteMenuClick = (target) => {
@@ -69,7 +64,7 @@ const handleSiteMenuClick = (target) => {
 
     case FilterType.STATS:
       movieListPresenter.destroy();
-      statisticsComponent = new Statistics(moviesModel.films);
+      statisticsComponent = new StatisticsView(moviesModel.films);
       render(siteMainElement, statisticsComponent, RenderPosition.BEFORE_END);
       statisticsComponent.getCharts(moviesModel.films);
       menuActive.classList.remove('main-navigation__item--active');

@@ -1,4 +1,4 @@
-import { createFilmCardTemplate } from './film-card-tpl.js';
+import { createFilmCardTemplate } from './film-card.js';
 import { createElement } from '../../utils/helpers.js';
 import AbstractView from '../abstract-view.js';
 import { Selectors } from '../../utils/consts.js';

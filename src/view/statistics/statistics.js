@@ -1,172 +1,54 @@
-import SmartView from '../smart-view.js';
-import { StatisticsType, Selectors } from '../../utils/consts.js';
-import { getGenres, filmsToFilterMap } from '../../utils/statistics.js';
-import { createStatsScreenTemplate } from './statistics-tpl.js';
+import { getTotalDuration, getTopGenre, getUserRank } from '../../utils/statistics.js';
+import { getHourFromMin } from '../../utils/common.js';
 
-const Chart = require('chart.js');
-const ChartDataLabels = require('chartjs-plugin-datalabels');
+const createFilterItemTemplate = (filter, currentFilter) => {
+  const { name, type } = filter;
+  const checkedFilter = type === currentFilter ? 'checked' : '';
 
-const CHART_VALUE = {
-  TYPE: 'horizontalBar',
-  BACKGROUND_COLOR: '#ffe800',
-  ANCOR: 'start',
-  THICKNESS: 24,
-  FONT_SIZE: 20,
-  FONT_COLOR: '#fff',
-  OFFSET: 40,
-  PADDING: 100,
-  HEIGHT: 50,
+  return (
+    `<input type="radio" class="statistic__filters-input visually-hidden"
+      name="statistic-filter" id="statistic-${type}" value="${type}" ${checkedFilter}>
+      <label for="statistic-${type}" class="statistic__filters-label">${name}
+      </label>`);
 };
 
-const renderChart = (chartContainer, films) => {
-  const BAR_HEIGHT = CHART_VALUE.HEIGHT;
+export const createStatsScreenTemplate = (films, currentFilter, filters, watchedFilms) => {
+  const totalDuration = getHourFromMin(getTotalDuration(films));
+  const topGenre = getTopGenre(films);
+  const runk = getUserRank(watchedFilms);
 
-  const genres = [];
-  const genresCounts = [];
+  const filterItemsTemplate = filters
+    .map((filter) => createFilterItemTemplate(filter, currentFilter))
+    .join('');
 
-  Object
-    .entries(getGenres(films))
-    .sort((a, b) => b[1] - a[1])
-    .forEach(([name, count]) => {
-      genres.push(name);
-      genresCounts.push(count);
-    });
 
-  chartContainer.height = BAR_HEIGHT * Object.values(genres).length;
-
-  return new Chart(chartContainer, {
-    plugins: [ChartDataLabels],
-    type: CHART_VALUE.TYPE,
-    data: {
-      labels: genres,
-      datasets: [{
-        data: genresCounts,
-        backgroundColor: CHART_VALUE.BACKGROUND_COLOR,
-        hoverBackgroundColor: CHART_VALUE.BACKGROUND_COLOR,
-        anchor: CHART_VALUE.ANCOR,
-        barThickness: CHART_VALUE.THICKNESS,
-      }],
-    },
-    options: {
-      responsive: false,
-      plugins: {
-        datalabels: {
-          font: {
-            size: CHART_VALUE.FONT_SIZE,
-          },
-          color: CHART_VALUE.FONT_COLOR,
-          anchor: CHART_VALUE.ANCOR,
-          align: CHART_VALUE.ANCOR,
-          offset: CHART_VALUE.OFFSET,
-        },
-      },
-      scales: {
-        yAxes: [{
-          ticks: {
-            fontColor: CHART_VALUE.FONT_COLOR,
-            padding: CHART_VALUE.PADDING,
-            fontSize: CHART_VALUE.FONT_SIZE,
-          },
-          gridLines: {
-            display: false,
-            drawBorder: false,
-          },
-        }],
-        xAxes: [{
-          ticks: {
-            display: false,
-            beginAtZero: true,
-          },
-          gridLines: {
-            display: false,
-            drawBorder: false,
-          },
-        }],
-      },
-      legend: {
-        display: false,
-      },
-      tooltips: {
-        enabled: false,
-      },
-    },
-  });};
-
-export default class Statistics extends SmartView {
-  #chart = null;
-  #films = null;
-  #currentFilter = null;
-  #watchedFilms = null;
-  #data = null;
-  #filters = null;
-
-  constructor(films) {
-    super();
-
-    this.#films = films;
-    this.#currentFilter = StatisticsType.ALL;
-    this.#filters = this.#getFilters();
-    this.#watchedFilms = this.#films.filter((film) => film['user_details']['already_watched']);
-    this.#data = filmsToFilterMap[this.#currentFilter](this.#watchedFilms);
-
-    this.setStatsFilterChangeHandler();
-  }
-
-  get template() {
-    return createStatsScreenTemplate(this.#data, this.#currentFilter, this.#filters, this.#watchedFilms);
-  }
-
-  removeElement = () => {
-    super.removeElement();
-  }
-
-  restoreHandlers = () => {
-    this.setStatsFilterChangeHandler();
-    this.getCharts();
-  }
-
-  getCharts = () => {
-    if (this.#chart !== null) {
-      this.#chart = null;
-    }
-
-    const chartContainer = document.querySelector(Selectors.STATISTICS_CHART);
-    this.#chart = renderChart(chartContainer, this.#data);
-  }
-
-  setStatsFilterChangeHandler() {
-    this.element.addEventListener('change', this.#filterItemsChangeHandler);
-  }
-
-  #filterItemsChangeHandler = (evt) => {
-    evt.preventDefault();
-    if (evt.target.classList.contains('statistic__filters-input')) {
-      this.#currentFilter = evt.target.value;
-      this.#data = filmsToFilterMap[this.#currentFilter](this.#watchedFilms);
-      this.updateElement();
-    }
-  }
-
-  #getFilters = () => [
-    {
-      type: StatisticsType.ALL,
-      name: 'All time'
-    },
-    {
-      type: StatisticsType.TODAY,
-      name: 'Today'
-    },
-    {
-      type: StatisticsType.WEEK,
-      name: 'Week'
-    },
-    {
-      type: StatisticsType.MONTH,
-      name: 'Month'
-    },
-    {
-      type: StatisticsType.YEAR,
-      name: 'Year'
-    }
-  ]
-}
+  return (
+    `<section class="statistic">
+        ${runk ? `<p class="statistic__rank">
+    Your rank
+    <img class="statistic__img" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
+    <span class="statistic__rank-label">${runk}</span>
+  </p>` : ''}
+        <form action="https://echo.htmlacademy.ru/" method="get" class="statistic__filters">
+          <p class="statistic__filters-description">Show stats:</p>
+  ${filterItemsTemplate}
+        </form>
+        <ul class="statistic__text-list">
+          <li class="statistic__text-item">
+            <h4 class="statistic__item-title">You watched</h4>
+            <p class="statistic__item-text">${films.length}<span class="statistic__item-description">movies</span></p>
+          </li>
+          <li class="statistic__text-item">
+            <h4 class="statistic__item-title">Total duration</h4>
+            <p class="statistic__item-text">${totalDuration.hours} <span class="statistic__item-description">h</span> ${totalDuration.mins} <span class="statistic__item-description">m</span></p>
+          </li>
+          <li class="statistic__text-item">
+            <h4 class="statistic__item-title">Top genre</h4>
+            <p class="statistic__item-text">${topGenre}</p>
+          </li>
+        </ul>
+        <div class="statistic__chart-wrap">
+          <canvas class="statistic__chart" width="1000" height="250"></canvas>
+        </div>
+      </section>`);
+};

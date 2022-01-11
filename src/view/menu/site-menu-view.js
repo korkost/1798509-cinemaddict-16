@@ -1,4 +1,4 @@
-import { createSiteMenuTemplate } from './site-menu-tpl.js';
+import { createSiteMenuTemplate } from './site-menu.js';
 import AbstractView from '../abstract-view.js';
 import { Selectors } from '../../utils/consts.js';
 

@@ -1,178 +1,136 @@
-import {createFilmPopupTemplate} from './popup-tpl.js';
-import SmartView from '../smart-view.js';
-import {createElement, render} from '../../utils/helpers.js';
-import { RenderPosition, Selectors } from '../../utils/consts.js';
+import { changeWord, addClassBySubmit } from '../../utils/common.js';
+import { EMOJIS } from '../../utils/consts.js';
+import FormatTime from '../../utils/format-time.js';
+import he from 'he';
 
-const createIdGenerator = () => {
-  let lastGeneratedId = 4;
+const addCheckedProperty = (isChecked) => isChecked ? 'checked' : '';
 
-  return function () {
-    lastGeneratedId += 1;
-    return lastGeneratedId;
-  };
+const renderFilmDetailsTable = (name, value) => (
+  `<tr class="film-details__row">
+  <td class="film-details__term">${name}</td>
+  <td class="film-details__cell">${value}</td>
+</tr>`
+);
+
+const renderElementGenre = (array) => {
+  if (array.length > 0) {
+    const box = [];
+    for (const element of array) { box.push(`<span class="film-details__genre">${element}</span>`); }
+    return box;
+  }
 };
 
-const generateCmmentId = createIdGenerator();
+export const createControlTemplate = (data) => (`<section class="film-details__controls">
+<button type="button" class="film-details__control-button ${addClassBySubmit(data.user_details.watchlist, 'film-details__control-button--active')} film-details__control-button--watchlist" id="watchlist" name="watchlist">Add to watchlist</button>
+<button type="button" class="film-details__control-button ${addClassBySubmit(data.user_details.already_watched, 'film-details__control-button--active')} film-details__control-button--watched" id="watched" name="watched">Already watched</button>
+<button type="button" class="film-details__control-button ${addClassBySubmit(data.user_details.favorite, 'film-details__control-button--active')} film-details__control-button--favorite" id="favorite" name="favorite">Add to favorites</button>
+</section>`);
 
-export default class Popup extends SmartView {
-  #film = null;
-  #array = null;
-  #container = null;
-  #element = null;
-  userEmoji = null;
-  userComment = '';
+const createCommentTemplate = (commentId, array) => {
+  const commentBox = [];
 
-  constructor(film, comments) {
-    super();
-    this._data = Popup.parseFilmToData(film);
-    this._comments = comments;
-    this.#setInnerHandlers();
-  }
+  for (const element of array) {
+    if (commentId.includes(element.id)) {
 
-  get template() {
-    return createFilmPopupTemplate(this._data, this._comments,);
-  }
+      const { id, author, comment, date, emotion } = element;
+      const formatedDate = FormatTime.getDate(date, 'YYYY/MM/DD HH:mm');
+      const humanizeDate = FormatTime.getHumanizeDate(date);
 
-  saveUserData() {
-    if (this.userEmoji !== null) {
-      this.#container = document.querySelector(Selectors.FILM_DETAILS_ADD_EMOJI);
-      this.#element = createElement(`<img src="images/emoji/${this.userEmoji}.png" width="55" height="55" alt="emoji-${this.userEmoji}">`);
-      render(this.#container, this.#element, RenderPosition.BEFORE_END);
-      document.getElementById(`emoji-${this.userEmoji}`).setAttribute('checked', 'true');
-    }
-
-    if (this.userComment) {
-      document.querySelector(Selectors.FILM_DETAILS_COMMENT).textContent = this.userComment;
+      commentBox.push(`<li class="film-details__comment">
+        <span class="film-details__comment-emoji">
+          <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">
+        </span>
+          <div>
+            <p class="film-details__comment-text">${comment}</p>
+            <p class="film-details__comment-info">
+              <span class="film-details__comment-author">${author}</span>
+              <span class="film-details__comment-day"  title="${formatedDate}">${humanizeDate}</span>
+              <button class="film-details__comment-delete" data-comment-id="${id}">Delete</button>
+            </p>
+          </div>
+      </li>`);
     }
   }
+  return commentBox;
+};
 
-  reset = (film) => {
-    this.updateData(
-      Popup.parseFilmToData(film),
-    );
+const createNewCommentTemplate = (emojiIcon, checkedEmojiItem, comment) => `<div class="film-details__new-comment">
+        <div class="film-details__add-emoji-label">${emojiIcon !== '' ? `<img src="/images/emoji/${emojiIcon}.png" width="55" height="55" alt="emoji-${emojiIcon}">` : ''}</div>
+        <label class="film-details__comment-label">
+          <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${he.encode(comment)}</textarea>
+        </label>
+        <div class="film-details__emoji-list">
+        ${EMOJIS.map((emoji) => `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emoji}" value="${emoji}" ${addCheckedProperty(`emoji-${emoji}` === checkedEmojiItem)}>
+        <label class="film-details__emoji-label" for="emoji-${emoji}">
+          <img src="./images/emoji/${emoji}.png" width="30" height="30" alt="emoji">
+        </label>`).join('')}
+        </div>
+      </div>`;
+
+export const createFilmPopupTemplate = (data, array) => {
+  const { title, runtime, genre, description, poster, director, writers, actors } = data['film_info'];
+  const rating = data['film_info']['total_rating'];
+  const date = data['film_info']['release']['date'];
+  const ageRating = data['film_info']['age_rating'];
+  const alternativeTitle = data['film_info']['alternative_title'];
+  const country = data['film_info']['release']['release_country'];
+  const { emojiIcon, checkedEmojiItem, isDisabled, comment } = data;
+
+  const dateFormat = FormatTime.getDate(date, 'D MMMM YYYY');
+
+  const getTime = () => {
+    const hours = Math.trunc(runtime / 60);
+    const minutes = runtime % 60;
+    return `${hours}h ${minutes}м`;
   };
 
-  restoreHandlers = () => {
-    this.#setInnerHandlers();
-    this.setPopupClickHandler(this._callback.popupClick);
-    this.setPopupWatchlistClickHandler(this._callback.popupWatchlistClick);
-    this.setPopupHistoryClickHandler(this._callback.popupHistoryClick);
-    this.setPopupFavoriteClickHandler( this._callback.popupFavoriteClick);
-    this.setDeleteCommentClickHandler(this._callback.clickDelete);
-    this.setAddCommentKeydownHandler(this._callback.formKeydown);
-  }
-
-  setPopupClickHandler = (callback) => {
-    this._callback.popupClick = callback;
-    this.element.querySelector(Selectors.FILM_DETAILS_CLOSE).addEventListener('click', this.#popupClickHandler);
-  }
-
-  setPopupWatchlistClickHandler = (callback) => {
-    this._callback.popupWatchlistClick = callback;
-    this.element.querySelector(Selectors.FILM_DETAILS_WATCHLIST).addEventListener('click', this.#popupWatchlistClickHandler);
-  }
-
-  setPopupHistoryClickHandler = (callback) => {
-    this._callback.popupHistoryClick = callback;
-    this.element.querySelector(Selectors.FILM_DETAILS_WATCHED).addEventListener('click', this.#popupHistoryClickHandler);
-  }
-
-  setPopupFavoriteClickHandler = (callback) => {
-    this._callback.popupFavoriteClick = callback;
-    this.element.querySelector(Selectors.FILM_DETAILS_FAVORITE).addEventListener('click', this.#popupFavoriteClickHandler);
-  }
-
-  setDeleteCommentClickHandler(callback) {
-    this._callback.clickDelete = callback;
-    this.element.addEventListener('click', this.#deleteCommentClickHandler);
-  }
-
-  setAddCommentKeydownHandler(callback) {
-    this._callback.formKeydown = callback;
-    this.element.querySelector('form').addEventListener('keydown', this.#formKeydownHandler);
-  }
-
-  #setInnerHandlers = () => {
-    this.element.querySelector(Selectors.FILM_DETAILS_EMOJI).addEventListener('change', this.#emojiItemsClickHandler);
-    this.element.querySelector(Selectors.FILM_DETAILS_COMMENT).addEventListener('input', this.#descriptionInputHandler);
-  };
-
-  #emojiItemsClickHandler = (evt) => {
-    this.userEmoji = evt.target.value;
-    this.updateData({
-      emojiIcon: evt.target.value,
-      checkedEmojiItem: evt.target.id,
-      comment: this.userComment
-    });
-
-  }
-
-  #descriptionInputHandler = (evt) => {
-    this.userComment = evt.target.value;
-    this.updateData({
-      comment: evt.target.value,
-    }, true);
-  }
-
-  #popupClickHandler = (evt) => {
-    evt.preventDefault();
-    this._callback.popupClick(Popup.parseDataToFilm(this._data));
-  }
-
-  #popupWatchlistClickHandler = (evt) => {
-    evt.preventDefault();
-    this._callback.popupWatchlistClick();
-  }
-
-  #popupHistoryClickHandler = (evt) => {
-    evt.preventDefault();
-    this._callback.popupHistoryClick();
-  }
-
-  #popupFavoriteClickHandler = (evt) => {
-    evt.preventDefault();
-    this._callback.popupFavoriteClick();
-  }
-
-  #deleteCommentClickHandler = (evt) => {
-    if (evt.target.dataset.commentId) {
-      evt.preventDefault();
-      const commentId = evt.target.dataset.commentId;
-      this._callback.clickDelete(commentId);
-    }
-  }
-
-  #formKeydownHandler = (evt) => {
-    if (evt.ctrlKey && evt.key === 'Enter') {
-      if (this._data.comment === '' || this._data.emojiIcon === '') {
-        return;
-      }
-      const newComment = {
-        id: String(generateCmmentId()),
-        author: 'Ilya O\'Reilly',
-        comment: this._data.comment,
-        date: new Date(),
-        emotion: this._data.emojiIcon,
-      };
-      this._callback.formKeydown(newComment, newComment.id);
-    }
-  }
-
-  static parseFilmToData = (film) => ({...film,
-    emojiIcon: '',
-    checkedEmojiItem: '',
-    comment: '',
-    isDisabled: false,
-  });
-
-  static parseDataToFilm = (data) => {
-    const film = {...data};
-    delete film.emojiIcon;
-    delete film.checkedEmojiItem;
-    delete film.comment;
-    delete film.isDisabled;
-
-    return film;
-  };
-
-}
+  return (
+    `<section class="film-details">
+      <form class="film-details__inner" action="" method="get">
+        <div class="film-details__top-container">
+          <div class="film-details__close">
+            <button class="film-details__close-btn" type="button">close</button>
+          </div>
+          <div class="film-details__info-wrap">
+            <div class="film-details__poster">
+              <img class="film-details__poster-img" src="${poster}" alt="">
+                <p class="film-details__age">${ageRating}+</p>
+          </div>
+              <div class="film-details__info">
+                <div class="film-details__info-head">
+                  <div class="film-details__title-wrap">
+                    <h3 class="film-details__title">${title}</h3>
+                    <p class="film-details__title-original">${alternativeTitle}</p>
+                  </div>
+                  <div class="film-details__rating">
+                    <p class="film-details__total-rating">${rating}</p>
+                  </div>
+                </div>
+                <table class="film-details__table">
+                  ${renderFilmDetailsTable('Director', director)}
+              ${renderFilmDetailsTable('Writers', writers.join(', '))}
+              ${renderFilmDetailsTable('Actors', actors.join(', '))}
+              ${renderFilmDetailsTable('Release Date', dateFormat)}
+              ${renderFilmDetailsTable('Runtime', getTime())}
+              ${renderFilmDetailsTable('Country', country)}
+              ${renderFilmDetailsTable(changeWord(genre, 'Genre'), renderElementGenre(genre).join(' '))}
+                </table>
+                <p class="film-details__film-description">
+                  ${description}
+                </p>
+              </div>
+            </div>
+        ${createControlTemplate(data)}
+          </div>
+          <div class="film-details__bottom-container">
+            <section class="film-details__comments-wrap">
+              <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${data.comments.length}</span></h3>
+              <ul class="film-details__comments-list">
+                ${createCommentTemplate(data.comments, array).join('')}
+              </ul>
+            ${createNewCommentTemplate(emojiIcon, checkedEmojiItem, comment, isDisabled)}
+            </section>
+          </div>
+    </form>
+  </section>`);
+};
