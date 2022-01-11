@@ -1,40 +1,28 @@
-import dayjs from 'dayjs';
-import {
-  MAX_DAYS_GAP,
-  MAX_MINUTES,
-  MIN_VALUE
-} from './consts.js';
+import AbstractView from '../view/abstract-view.js';
+import FormatTime from './format-time.js';
+import { NUMBER_MINUTES_PER_HOUR } from './consts.js';
 
-export const getRandomInteger = (a = 0, b = 1) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
+export const changeWord = (array, word) => array.length === 1 ? word : `${word}s`;
 
-  return Math.floor(lower + Math.random() * (upper - lower + 1));
+export const addClassBySubmit = (submit, className) => submit ? className : '';
+
+export const adjustElement = (container) => container instanceof AbstractView ? container.element : container;
+
+export const sortDate = (filmA, filmB) => FormatTime.getDate(filmB.film_info.release.date, 'YYYY') - FormatTime.getDate(filmA.film_info.release.date, 'YYYY');
+
+export const sortRating = (filmA, filmB) => filmB.film_info.total_rating - filmA.film_info.total_rating;
+
+export const sortComments = (filmA, filmB) => filmB.comments.length - filmA.comments.length;
+
+export const onEscKeyDown = (evt, cb) => {
+  if (evt.key === 'Escape' || evt.key === 'Esc') {
+    evt.preventDefault();
+    cb(evt);
+  }
 };
 
-export const getRandomPositiveFloat = (a, b, digits = 1) => {
-  const lower = Math.min(Math.abs(a), Math.abs(b));
-  const upper = Math.max(Math.abs(a), Math.abs(b));
-  const result = Math.random() * (upper - lower) + lower;
+export const getHourFromMin = (mins) => ({
+  hours: Math.trunc(mins / NUMBER_MINUTES_PER_HOUR),
+  mins: mins % NUMBER_MINUTES_PER_HOUR,
+});
 
-  return result.toFixed(digits);
-};
-
-export const generateDate = () => {
-  const daysGap = getRandomInteger(MIN_VALUE, MAX_DAYS_GAP);
-
-  return dayjs().add(-daysGap, 'day').toDate();
-};
-
-export const generateDuration = () => {
-  const hours = getRandomInteger();
-  const minutes = getRandomInteger(MIN_VALUE, MAX_MINUTES);
-
-  let durations = hours ? `${hours}h ` : '';
-
-  durations += `${minutes}m`;
-
-  return durations;
-};
-
-export const isPressed = (key) => key === 'Escape' || key === 'Esc';

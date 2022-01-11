@@ -19,6 +19,8 @@ export const render = (container, element, position) => {
     case RenderPosition.AFTER_END:
       parent.after(child);
       break;
+    default:
+      parent.append(child);
   }
 };
 
@@ -41,20 +43,6 @@ export const remove = (component) => {
 
   component.element.remove();
   component.removeElement();
-};
-
-export const updateItem = (items, update) => {
-  const index = items.findIndex((item) => item.id === update.id);
-
-  if (index === -1) {
-    return items;
-  }
-
-  return [
-    ...items.slice(0, index),
-    update,
-    ...items.slice(index + 1),
-  ];
 };
 
 export const replace = (newElement, oldElement) => {

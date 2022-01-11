@@ -1,5 +1,7 @@
-import { FAN, NOVICE } from '../utils/consts.js';
 import AbstractView from './abstract-view.js';
+
+const NOVICE = 10;
+const FAN = 20;
 
 const createRatingTemplate = (count) => {
   const getRank = () => {

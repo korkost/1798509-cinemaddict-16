@@ -3,19 +3,19 @@ import AbstractView from './abstract-view.js';
 const createShowMoreTemplate = () =>
   '<button class="films-list__show-more">Show more</button>';
 
-export default class ShowMoreView extends AbstractView {
+export default class ShowMoreButtonView extends AbstractView {
 
   get template() {
 
     return createShowMoreTemplate();
   }
 
-  setAddCardsClickHandler = (callback) => {
+  setClickHandler = (callback) => {
     this._callback.addCards = callback;
-    this.element.addEventListener('click', this.#addCardsClickHandler);
+    this.element.addEventListener('click', this.#clickHandler);
   }
 
-  #addCardsClickHandler = (e) => {
+  #clickHandler = (e) => {
     e.preventDefault();
     this._callback.addCards();
   };
