@@ -53,7 +53,6 @@ export default class FilmCardView extends AbstractView {
 
   #filmClickHandler = (evt) => {
     evt.preventDefault();
-    if (document.querySelector(Selectors.FILM_DETAILS)) {document.querySelector(Selectors.FILM_DETAILS).remove();}
     this._callback.filmClick();
   }
 

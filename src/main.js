@@ -1,12 +1,9 @@
 import { render, remove } from './utils/helpers.js';
-import { generateFilm } from './mock/structures.js';
-import { COMMENTS_ARRAY } from './mock/structures.js';
 import {
   FilterType,
   RenderPosition,
   Selectors,
 } from './utils/consts.js';
-import ProfileView from './view/profile-view.js';
 import NumberOfFilmsView from './view/number-of-films-view.js';
 import MovieListPresenter from './presenters/movie-list-presenter.js';
 import MoviesModel from './models/movies-model.js';
@@ -15,33 +12,22 @@ import FilterModel from './models/filter-model.js';
 import FilterPresenter from './presenters/filter-presenter.js';
 import StatisticsView from './view/statistics/statistics-view.js';
 import MenuView from './view/menu-view.js';
+import ApiService from './services/api-service.js';
 
-const FILM_COUNT = 20;
-
-const films = Array.from({ length: FILM_COUNT }, generateFilm);
-
-const moviesModel = new MoviesModel();
-moviesModel.films = films;
-
-const commentsModel = new CommentsModel();
-commentsModel.comments = COMMENTS_ARRAY;
-
-const filterModel = new FilterModel();
+const AUTHORIZATION = 'Basic fbgf34jbdfhvjdvbd';
+const END_POINT = 'https://16.ecmascript.pages.academy/cinemaddict';
 
 const siteMainElement = document.querySelector(Selectors.MAIN);
-const siteHeaderElement = document.querySelector(Selectors.HEADER);
 const siteFooterElement = document.querySelector(Selectors.FOOTER);
-const siteBodyElement = document.querySelector('body');
 
-render(siteHeaderElement, new ProfileView(), RenderPosition.BEFORE_END);
-
+const apiService = new ApiService(END_POINT, AUTHORIZATION);
+const moviesModel = new MoviesModel(apiService);
+const commentsModel = new CommentsModel(apiService);
+const filterModel = new FilterModel();
 const siteMenu = new MenuView();
-render(siteMainElement, siteMenu, RenderPosition.BEFORE_END);
 
-const movieListPresenter = new MovieListPresenter(siteMainElement, siteBodyElement, moviesModel, commentsModel, filterModel);
+const movieListPresenter = new MovieListPresenter(siteMainElement, moviesModel, commentsModel, filterModel, apiService);
 new FilterPresenter(siteMenu, filterModel, moviesModel);
-
-render(siteFooterElement, new NumberOfFilmsView(films), RenderPosition.BEFORE_END);
 
 let statisticsComponent = null;
 
@@ -70,7 +56,26 @@ const handleSiteMenuClick = (target) => {
       menuActive.classList.remove('main-navigation__item--active');
       menuStats.classList.add('main-navigation__item--active');
       break;
+
+      default:
+        if (statisticsComponent) {
+          remove(statisticsComponent);
+          menuStats.classList.remove('main-navigation__item--active');
+        }
+        movieListPresenter.destroy();
+        movieListPresenter.init();
+        break;
   }
 };
 
 siteMenu.setMenuClickHandler(handleSiteMenuClick);
+
+const numberOfFilms = new NumberOfFilmsView(moviesModel.films);
+render(siteFooterElement, numberOfFilms, RenderPosition.BEFORE_END);
+
+moviesModel.init().finally(() => {
+  render(siteMainElement, siteMenu, RenderPosition.AFTER_BEGIN);
+  remove(numberOfFilms);
+  render(siteFooterElement, new NumberOfFilmsView(moviesModel.films), RenderPosition.BEFORE_END);
+  siteMenu.setMenuClickHandler(handleSiteMenuClick);
+});

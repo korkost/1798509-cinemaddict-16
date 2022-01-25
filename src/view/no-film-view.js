@@ -1,5 +1,5 @@
 import AbstractView from './abstract-view.js';
-import { FilterType } from '../utils/consts.js';
+import { FilterType, Selectors } from '../utils/consts.js';
 
 const NoFilmTextType = {
   [FilterType.ALL]: 'There are no movies in our database',
@@ -11,14 +11,14 @@ const NoFilmTextType = {
 const createFilmListContainerTemplate = (filterType) => {
   const noFilmTextValue = NoFilmTextType[filterType];
 
-  return `<section class="films-list">
+  return (
+  `<section class="films-list">
     <h2 class="films-list__title ">${noFilmTextValue}</h2>
-  </section>`;
+  </section>`);
 };
 
 export default class NoFilmView extends AbstractView {
   #films = null;
-  #container = null;
 
   constructor(films) {
     super();
@@ -30,6 +30,6 @@ export default class NoFilmView extends AbstractView {
   }
 
   get container() {
-    return this.element.querySelector('.films-list__container');
+    return this.element.querySelector(Selectors.FILM_CONTAINER);
   }
 }

@@ -2,8 +2,8 @@ import AbstractView from './abstract-view.js';
 
 const createNumberOfFilms = (films) => (
   `<section class="footer__statistics">
-  <p>${new Intl.NumberFormat('ru').format(films.length)} movies inside</p>
-</section>`
+    <p>${films.length} movies inside</p>
+  </section>`
 );
 
 export default class NumberOfFilmsView extends AbstractView {
