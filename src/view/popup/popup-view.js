@@ -125,8 +125,10 @@ export default class PopupView extends SmartView {
 
   #deleteCommentClickHandler = (evt) => {
     if (evt.target.dataset.commentId) {
+
       evt.preventDefault();
       const commentId = evt.target.dataset.commentId;
+
       this._callback.clickDelete(commentId);
 
       const deleteButton = document.querySelector(`[data-comment-id="${commentId}"]`);
@@ -138,13 +140,16 @@ export default class PopupView extends SmartView {
   #formKeydownHandler = (evt) => {
     if (evt.ctrlKey && evt.key === 'Enter') {
       if (this._data.comment === '' || this._data.emojiIcon === '') {
+
         return;
       }
+
       const newComment = {
         id: 0,
         comment: this._data.comment,
         emotion: this._data.emojiIcon,
       };
+
       this._callback.formKeydown(newComment);
     }
   }

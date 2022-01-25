@@ -72,10 +72,9 @@ export const getTopGenre = (films) => {
   }
 
   const genresForStatistics = getGenres(films);
-  const topGenreStatistics = Object.entries(genresForStatistics).sort((a, b) => b[1] - a[1])[0];
+  const [topGenreStatistics] = Object.entries(genresForStatistics).sort((a, b) => b[1] - a[1]);
 
-  const topGenreName = topGenreStatistics[0];
-  return topGenreName;
+  return topGenreStatistics[0];
 };
 
 export const getUserRank = (films) => {
@@ -87,7 +86,7 @@ export const getUserRank = (films) => {
     return TitleRank.FAN;
   } else if (totalWatch > StepsOfRank.FAN.MAX) {
     return TitleRank.MOVIE_BUFF;
-  } else {
-    return TitleRank.NONE;
   }
+
+  return TitleRank.NONE;
 };

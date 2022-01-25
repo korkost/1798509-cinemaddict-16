@@ -9,7 +9,7 @@ const createFilterItemTemplate = (filter, currentFilter) => {
     `<input type="radio" class="statistic__filters-input visually-hidden"
       name="statistic-filter" id="statistic-${type}" value="${type}" ${checkedFilter}>
       <label for="statistic-${type}" class="statistic__filters-label">${name}
-      </label>`);
+    </label>`);
 };
 
 export const createStatsScreenTemplate = (films, currentFilter, filters, watchedFilms) => {

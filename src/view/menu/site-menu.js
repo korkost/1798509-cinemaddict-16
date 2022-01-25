@@ -3,7 +3,8 @@ import { FilterType } from '../../utils/consts.js';
 const createMenuItemTemplate = (filter, currentFilterType) => {
   const { type, name, count } = filter;
   const menuActiveClass = 'main-navigation__item--active';
-  return (`<a
+  return (
+    `<a
       href="#${type}"
       class="main-navigation__item ${type === currentFilterType ? `${menuActiveClass}` : ''}"
       data-filter="${type}"

@@ -12,9 +12,9 @@ const createFilmListContainerTemplate = (filterType) => {
   const noFilmTextValue = NoFilmTextType[filterType];
 
   return (
-  `<section class="films-list">
-    <h2 class="films-list__title ">${noFilmTextValue}</h2>
-  </section>`);
+    `<section class="films-list">
+      <h2 class="films-list__title ">${noFilmTextValue}</h2>
+    </section>`);
 };
 
 export default class NoFilmView extends AbstractView {

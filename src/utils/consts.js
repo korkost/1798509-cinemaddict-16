@@ -33,18 +33,6 @@ export const Selectors = {
 
 export const NUMBER_MINUTES_PER_HOUR = 59;
 
-export const CHART_VALUE = {
-  TYPE: 'horizontalBar',
-  BACKGROUND_COLOR: '#ffe800',
-  ANCOR: 'start',
-  THICKNESS: 24,
-  FONT_SIZE: 20,
-  FONT_COLOR: '#fff',
-  OFFSET: 40,
-  PADDING: 100,
-  HEIGHT: 50,
-};
-
 export const DESCRIPTION_LENGTH = 139;
 
 export const FILM_COUNT = {

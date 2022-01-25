@@ -22,12 +22,14 @@ export default class FilmCardView extends AbstractView {
 
   createCopy() {
     const copy = createElement(this.template);
+
     copy.querySelector(Selectors.FILM_CARD_LINK).addEventListener('click', this.#filmClickHandler);
     copy.querySelector(Selectors.FILM_CARD_WATCHLIST).addEventListener('click', this.#watchlistClickHandler);
     copy.querySelector(Selectors.FILM_CARD_WATCHED).addEventListener('click', this.#historyClickHandler);
     copy.querySelector(Selectors.FILM_CARD_FAVORITE).addEventListener('click', this.#favoriteClickHandler);
 
     this.#renderedFilms.push(copy);
+
     return copy;
   }
 

@@ -57,14 +57,14 @@ const handleSiteMenuClick = (target) => {
       menuStats.classList.add('main-navigation__item--active');
       break;
 
-      default:
-        if (statisticsComponent) {
-          remove(statisticsComponent);
-          menuStats.classList.remove('main-navigation__item--active');
-        }
-        movieListPresenter.destroy();
-        movieListPresenter.init();
-        break;
+    default:
+      if (statisticsComponent) {
+        remove(statisticsComponent);
+        menuStats.classList.remove('main-navigation__item--active');
+      }
+      movieListPresenter.destroy();
+      movieListPresenter.init();
+      break;
   }
 };
 

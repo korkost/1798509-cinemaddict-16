@@ -17,6 +17,7 @@ export const createFilmCardTemplate = (film) => {
 
   const getDescription = () => {
     const correctText = description.length > DESCRIPTION_LENGTH ? `${description.slice(0, DESCRIPTION_LENGTH)}...` : description;
+
     return correctText;
   };
 
