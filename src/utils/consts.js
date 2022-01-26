@@ -42,30 +42,30 @@ export const FILM_COUNT = {
 
 export const TIME_PERIOD = {
   SECONDS: {
-    MAX: 60
+    MAX: 60,
   },
   MINUTES: {
     MIN: 1,
-    MAX: 60
+    MAX: 60,
   },
   HOURS: {
     MIN: 1,
-    MAX: 24
+    MAX: 24,
   },
   DAYS: {
     MIN: 1,
-    MAX: 30
+    MAX: 30,
   },
   MONTHS: {
     MIN: 1,
-    MAX: 12
+    MAX: 12,
   },
 };
 
 export const AMOUNT_OF_TIME = {
   DAY: 7,
   MONTH: 1,
-  YEAR: 1
+  YEAR: 1,
 };
 
 export const Mode = {
