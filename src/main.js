@@ -2,7 +2,7 @@ import { render, remove } from './utils/helpers.js';
 import {
   FilterType,
   RenderPosition,
-  Selectors,
+  Selectors
 } from './utils/consts.js';
 import NumberOfFilmsView from './view/number-of-films-view.js';
 import MovieListPresenter from './presenters/movie-list-presenter.js';
