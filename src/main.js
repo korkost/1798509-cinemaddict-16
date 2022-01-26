@@ -1,96 +1,81 @@
-import SiteMenuView from './view/site-menu-view.js';
-import PopupFilmView from './view/popup-film-view.js';
-import FilmCardView from './view/film-card-view.js';
-import SortView from './view/sort-view.js';
-import ShowMoreView from './view/show-more-view.js';
-import ProfileView from './view/profile-view.js';
-import FilmsView from './view/films-view.js';
-import LoadingView from './view/loading-view.js';
-import { FILM_CARD_COUNT, FILM_CARD_COUNT_PER_STEP, Selectors } from './utils/consts.js';
-import { render } from './utils/helpers.js';
-import { generateCard } from './mock/film-card.js';
-import { generateFilter } from './mock/filter';
+import { render, remove } from './utils/helpers.js';
+import {
+  FilterType,
+  RenderPosition,
+  Selectors,
+} from './utils/consts.js';
+import NumberOfFilmsView from './view/number-of-films-view.js';
+import MovieListPresenter from './presenters/movie-list-presenter.js';
+import MoviesModel from './models/movies-model.js';
+import CommentsModel from './models/comments-model.js';
+import FilterModel from './models/filter-model.js';
+import FilterPresenter from './presenters/filter-presenter.js';
+import StatisticsView from './view/statistics/statistics-view.js';
+import MenuView from './view/menu-view.js';
+import ApiService from './services/api-service.js';
 
-const cards = Array.from({ length: FILM_CARD_COUNT }, generateCard);
-const filters = generateFilter(cards);
+const AUTHORIZATION = 'Basic fbgf34jbdfhvjdvbd';
+const END_POINT = 'https://16.ecmascript.pages.academy/cinemaddict';
 
 const siteMainElement = document.querySelector(Selectors.MAIN);
-const siteNavigationElement = document.querySelector(Selectors.HEADER);
+const siteFooterElement = document.querySelector(Selectors.FOOTER);
 
-render(siteMainElement, new SiteMenuView(filters));
-render(siteNavigationElement, new ProfileView());
-render(siteMainElement, new SortView());
-render(siteMainElement, new FilmsView());
+const apiService = new ApiService(END_POINT, AUTHORIZATION);
+const moviesModel = new MoviesModel(apiService);
+const commentsModel = new CommentsModel(apiService);
+const filterModel = new FilterModel();
+const siteMenu = new MenuView();
 
-const filmMainElement = siteMainElement.querySelector(Selectors.FILM_LIST);
-const filmListElement = filmMainElement.querySelector(Selectors.FILM_CONTAINER);
+const movieListPresenter = new MovieListPresenter(siteMainElement, moviesModel, commentsModel, filterModel, apiService);
+new FilterPresenter(siteMenu, filterModel, moviesModel);
 
-const renderCard = (cardListElement, card) => {
-  const cardComponent = new FilmCardView(card);
-  const cardPopupComponent = new PopupFilmView(card);
-  const body = document.body;
+let statisticsComponent = null;
 
-  const appendPopup = () => {
-    cardListElement.appendChild(cardPopupComponent.element);
-  };
+const handleSiteMenuClick = (target) => {
+  const menuCurrentType = target.dataset.filter;
+  const menuActive = document.querySelector(Selectors.MAIN_NAVIGATION_ITEM);
+  const menuStats = document.querySelector(Selectors.MAIN_NAVIGATION_ADDITIONAL);
 
-  const removePopup = () => {
-    cardListElement.removeChild(cardPopupComponent.element);
-  };
+  switch (menuCurrentType) {
+    case FilterType.ALL:
+    case FilterType.WATCHLIST:
+    case FilterType.HISTORY:
+    case FilterType.FAVORITES:
+      remove(statisticsComponent);
+      movieListPresenter.destroy();
+      movieListPresenter.init();
+      menuStats.classList.remove('main-navigation__item--active');
+      target.classList.add('main-navigation__item--active');
+      break;
 
-  const isPressed = (key) => key === 'Escape' || key === 'Esc';
+    case FilterType.STATS:
+      movieListPresenter.destroy();
+      statisticsComponent = new StatisticsView(moviesModel.films);
+      render(siteMainElement, statisticsComponent, RenderPosition.BEFORE_END);
+      statisticsComponent.getCharts(moviesModel.films);
+      menuActive.classList.remove('main-navigation__item--active');
+      menuStats.classList.add('main-navigation__item--active');
+      break;
 
-  const onEscKeyDown = (evt) => {
-    if (isPressed) {
-      evt.preventDefault();
-      removePopup();
-      body.classList.remove('hide-overflow');
-      document.removeEventListener('keydown', onEscKeyDown);
-    }
-  };
-
-  cardComponent.cardClickHandler(() => {
-    appendPopup();
-    body.classList.add('hide-overflow');
-    document.addEventListener('keydown', onEscKeyDown);
-  });
-
-  cardPopupComponent.popupCloseHandler(() => {
-    document.removeEventListener('keydown', onEscKeyDown);
-    removePopup();
-    body.classList.remove('hide-overflow');
-  });
-
-  render(cardListElement, cardComponent);
-};
-
-const renderCards = () => {
-
-  if (cards.length === 0) {
-    render(filmListElement, new LoadingView());
-  }
-
-  for (let i = 0; i < Math.min(cards.length, FILM_CARD_COUNT_PER_STEP); i++) {
-    renderCard(filmListElement, cards[i]);
-  }
-
-  if (cards.length > FILM_CARD_COUNT_PER_STEP) {
-    let renderCount = FILM_CARD_COUNT_PER_STEP;
-    render(filmMainElement, new ShowMoreView());
-
-    const loadButton = filmMainElement.querySelector(Selectors.SHOW_MORE);
-    loadButton.addEventListener('click', (evt) => {
-      evt.preventDefault();
-      cards
-        .slice(renderCount, renderCount + FILM_CARD_COUNT_PER_STEP)
-        .forEach((card) => renderCard(filmListElement, card));
-
-      renderCount += FILM_CARD_COUNT_PER_STEP;
-
-      if (renderCount >= cards.length) {
-        loadButton.remove();
+    default:
+      if (statisticsComponent) {
+        remove(statisticsComponent);
+        menuStats.classList.remove('main-navigation__item--active');
       }
-    });
+      movieListPresenter.destroy();
+      movieListPresenter.init();
+      break;
   }
 };
-renderCards();
+
+siteMenu.setMenuClickHandler(handleSiteMenuClick);
+
+const numberOfFilms = new NumberOfFilmsView(moviesModel.films);
+render(siteFooterElement, numberOfFilms, RenderPosition.BEFORE_END);
+
+moviesModel.init().finally(() => {
+  render(siteMainElement, siteMenu, RenderPosition.AFTER_BEGIN);
+  remove(numberOfFilms);
+  render(siteFooterElement, new NumberOfFilmsView(moviesModel.films), RenderPosition.BEFORE_END);
+  siteMenu.setMenuClickHandler(handleSiteMenuClick);
+});
