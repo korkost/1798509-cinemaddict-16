@@ -475,22 +475,23 @@ export default class MovieListPresenter {
   }
 
   #renderFilmList = () => {
-    if (this.#isLoading) {
-      this.#renderLoading();
-    } else {
-      remove(this.#loadingComponent);
-      this.#renderSort();
-    }
+    // if (this.#isLoading) {
+    //   this.#renderLoading();
+    // } else {
+    //   remove(this.#loadingComponent);
+    //   this.#renderSort();
+    // }
 
     const films = this.films;
     const filmCount = films.length;
 
     this.#renderProfile();
 
+    this.#renderSort();
     render(this.#container, this.#filmsComponent, RenderPosition.BEFORE_END);
     render(this.#filmsComponent, this.#filmMainComponent, RenderPosition.BEFORE_END);
 
-    if (filmCount === 0 && !this.#isLoading) {
+    if (filmCount === 0 && this.#isLoading) {
       remove(this.#sortComponent);
       this.#renderNoFilms();
       return;
