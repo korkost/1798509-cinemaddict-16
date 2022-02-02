@@ -493,7 +493,8 @@ export default class MovieListPresenter {
     if (filmCount === 0 && !this.#isLoading) {
       remove(this.#sortComponent);
       this.#renderNoFilms();
-      return;
+    }else {
+      remove(this.#noFilmsComponent);
     }
 
     this.#renderFilms(films.slice(0, this.#renderedFilmCount), this.#filmMainComponent.container);

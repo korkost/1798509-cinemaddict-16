@@ -116,6 +116,7 @@ export const UpdateType = {
   COMMENT: 'COMMENT',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
+  INIT: 'INIT',
 };
 
 export const FilterType = {
