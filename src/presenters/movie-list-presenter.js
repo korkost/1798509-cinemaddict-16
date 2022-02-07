@@ -338,6 +338,7 @@ export default class MovieListPresenter {
         try {
           await this.#commentsModel.deleteComment(updateType, update);
         } catch(error) {
+          this.#setViewState();
         }
         break;
       default:
