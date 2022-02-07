@@ -63,8 +63,9 @@ const createNewCommentTemplate = (emojiIcon, checkedEmojiItem, comment, isDisabl
         ${isDisabled ? 'disabled' : ''}
         >${he.encode(comment)}</textarea>
         </label>
-        <div class="film-details__emoji-list">
-        ${EMOJIS.map((emoji) => `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emoji}" value="${emoji}" ${addCheckedProperty(`emoji-${emoji}` === checkedEmojiItem)}>
+        <div class="film-details__emoji-list"
+        ${isDisabled ? 'disabled' : ''}
+        >${EMOJIS.map((emoji) => `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emoji}" value="${emoji}" ${addCheckedProperty(`emoji-${emoji}` === checkedEmojiItem)}>
         <label class="film-details__emoji-label" for="emoji-${emoji}">
           <img src="./images/emoji/${emoji}.png" width="30" height="30" alt="emoji">
         </label>`).join('')}

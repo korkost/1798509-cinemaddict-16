@@ -1,6 +1,6 @@
 import { render, remove, replace } from '../utils/helpers.js';
 import {
-  FilmBlocks,
+  FILM_BLOCKS,
   RenderPosition,
   SortType,
   UpdateType,
@@ -43,9 +43,9 @@ export default class MovieListPresenter {
   #film = null;
 
   #filmsComponent = new FilmsView();
-  #filmMainComponent = new FilmsListContainerView(FilmBlocks.main);
-  #filmTopRatedComponent = new FilmsListContainerView(FilmBlocks.topRated);
-  #filmMostCommentedComponent = new FilmsListContainerView(FilmBlocks.mostCommented);
+  #filmMainComponent = new FilmsListContainerView(FILM_BLOCKS.main);
+  #filmTopRatedComponent = new FilmsListContainerView(FILM_BLOCKS.topRated);
+  #filmMostCommentedComponent = new FilmsListContainerView(FILM_BLOCKS.mostCommented);
   #loadingComponent = new LoadingView();
   #filmCards = new Map();
 
@@ -338,7 +338,6 @@ export default class MovieListPresenter {
         try {
           await this.#commentsModel.deleteComment(updateType, update);
         } catch(error) {
-          this.#setViewState(State.ABORTING);
         }
         break;
       default:
@@ -438,8 +437,8 @@ export default class MovieListPresenter {
       .sort(sortComments)
       .slice(0, FILM_COUNT.EXTRA);
 
-    this.#filmTopRatedComponent = new FilmsListContainerView(FilmBlocks.topRated);
-    this.#filmMostCommentedComponent = new FilmsListContainerView(FilmBlocks.mostCommented);
+    this.#filmTopRatedComponent = new FilmsListContainerView(FILM_BLOCKS.topRated);
+    this.#filmMostCommentedComponent = new FilmsListContainerView(FILM_BLOCKS.mostCommented);
 
     if (topFilms.length > 0 && this.#filmTopRatedComponent) {
       render(this.#filmsComponent, this.#filmTopRatedComponent, RenderPosition.BEFORE_END);

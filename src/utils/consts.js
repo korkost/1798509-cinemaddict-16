@@ -33,7 +33,7 @@ export const Selectors = {
 
 export const NUMBER_MINUTES_PER_HOUR = 59;
 
-export const DESCRIPTION_LENGTH = 139;
+export const DESCRIPTION_LENGTH = 140;
 
 export const FILM_COUNT = {
   PER_STEP: 5,
@@ -62,12 +62,6 @@ export const TIME_PERIOD = {
   },
 };
 
-export const AMOUNT_OF_TIME = {
-  DAY: 7,
-  MONTH: 1,
-  YEAR: 1,
-};
-
 export const Mode = {
   DEFAULT: 'DEFAULT',
   EDITING: 'EDITING',
@@ -87,7 +81,7 @@ export const SortType = {
   RATING: 'rating',
 };
 
-export const FilmBlocks = {
+export const FILM_BLOCKS = {
   main: {
     title: 'All movies. Upcoming',
     isTitleHidden: true,
@@ -113,7 +107,8 @@ export const UserAction = {
 };
 
 export const UpdateType = {
-  COMMENT: 'COMMENT',
+  DELETE: 'DELETE',
+  ADD: 'ADD',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
   INIT: 'INIT',

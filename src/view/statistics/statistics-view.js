@@ -5,8 +5,6 @@ import { StatisticsType, Selectors } from '../../utils/consts.js';
 import { getGenres, filmsToFilterMap } from '../../utils/statistics.js';
 import { createStatsScreenTemplate } from './statistics.js';
 
-//console.log(Chart);
-
 const CHART_VALUE = {
   TYPE: 'horizontalBar',
   BACKGROUND_COLOR: '#ffe800',

@@ -138,7 +138,7 @@ export default class PopupView extends SmartView {
   }
 
   #formKeydownHandler = (evt) => {
-    if (evt.ctrlKey && evt.key === 'Enter') {
+    if ((evt.ctrlKey && evt.key === 'Enter') && (evt.ctrlKey || EventTarget.metaKey)) {
       if (this._data.comment === '' || this._data.emojiIcon === '') {
 
         return;
